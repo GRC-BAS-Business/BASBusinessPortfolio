@@ -1,0 +1,36 @@
+{
+  "name": "355/BASBusinessPortfolio",
+  "description": "GRC BAS Business Portfolio project - SDEV 355",
+  "readme": "/README.md",
+  "authors": [
+    {
+      "name": "Noah Lanctot",
+      "email": "lanctot.noah@student.greenriver.edu",
+      "role": "Product Owner, Front-End Developer"
+    },
+    {
+      "name": "Braedon Billingsley",
+      "email": "Billingsley.Braedon@student.greenriver.edu",
+      "role": "System Design, Back-End Developer"
+    },
+    {
+      "name": "Will Castillo",
+      "email": "castillo.william@student.greenriver.edu",
+      "role": "Scrum Master, Full-Stack Developer"
+    },
+    {
+      "name": "Mehak Saini",
+      "email": "saini.mehak@student.greenriver.edu",
+      "role": "UI Designer, Front-End Developer"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master",
+    "ext-pdo": "*",
+    "ext-ctype": "*",
+    "ext-cassandra": "*"
+  },
+  "autoload": {
+    "classmap": [ "app/" ]
+  }
+}
