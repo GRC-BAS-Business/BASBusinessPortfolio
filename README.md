@@ -1,8 +1,8 @@
 # <p align = "center"> GRC BAS Business Portfolio </p>
 A usability focused online platform that empowers BAS Business Students at GRC to create customizable resumes, portfolios, and access career resources, all in one place.
 
-##  🏠 [Homepage]("https://linktohomepage.com")
-##  📁 [GitHub Repo](https://github.com/william-castillo-jr/BASBusinessPortfolio)
+##  🏠 [Homepage]("https://bas-business-portfolio.greenriverdev.com")
+##  📁 [GitHub Repo](https://github.com/GRC-BAS-Business/BASBusinessPortfolio)
 ##  🏕️ [BaseCamp](https://3.basecamp.com/5243442/projects/37013259)
 
 ## ‍🎓 Who is this for? 
@@ -58,15 +58,9 @@ Visual content on the structure, design, sequence flow, and relationships of the
 <br>
 
 #### UML Class Diagrams
-![picture alt](http://via.placeholder.com/200x150 "UML Class Diagram")
-![picture alt](http://via.placeholder.com/200x150 "UML Class Diagram")
-![picture alt](http://via.placeholder.com/200x150 "UML Class Diagram")
-<br>
-
-#### UML Sequence Diagrams
-![picture alt](http://via.placeholder.com/200x150 "UML Sequence Diagram")
-![picture alt](http://via.placeholder.com/200x150 "UML Sequence Diagram")
-![picture alt](http://via.placeholder.com/200x150 "UML Sequence Diagram")
+![picture alt](/assets/Sprint3-UserAccountStudent-BAS_Business_Portfolio_Project___UML_Class_Diagram__UserAccount__Student.png "Account - UML Class Diagram")
+![picture alt](/assets/Sprint3-PortfolioTimelineTaskItem-BAS_Business_Portfolio_Project___UML_Class_Diagram__PortfolioTimeline__PortfolioTask__PortfolioItem.png "Portfolio Timeline - UML Class Diagram")
+![picture alt](/assets/Sprint3-CompleteDiagram-BAS_Business_Portfolio_Project___Account__User__Admin_UML_Class_Diagram.png "Complete - UML Class Diagram")
 <br>
 
 #### ER Diagrams
