@@ -26,9 +26,7 @@
   ],
   "require": {
     "bcosca/fatfree-core": "dev-master",
-    "ext-pdo": "*",
-    "ext-ctype": "*",
-    "ext-cassandra": "*"
+    "ext-pdo": "*"
   },
   "autoload": {
     "classmap": [ "app/" ]

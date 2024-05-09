@@ -4,7 +4,7 @@
  *
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
  *  @copyright 2024
- *  @url https://bbillingsley.greenriverdev.com/355/BASBusinessPortfolio
+ *  @url https://bas-business-portfolio.greenriverdev.com
  **/
 
 require_once('vendor/autoload.php');
@@ -21,7 +21,7 @@ $con = new Controller($f3);
 // Default route to "Home" page
 $f3->route('GET /', function () use ($con)
 {
-    $con->home();
+    $con->renderHome();
 });
 
 // Run the Fat-Free instance
