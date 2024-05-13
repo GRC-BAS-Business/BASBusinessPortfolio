@@ -1,9 +1,9 @@
 <!--
 BAS Business Portfolio
-app/view/home.html
+app/view/timeline.html
 
-Braedon Billingsley, Mehak Saini, Will Castillo, Noah Lanctot
-This is the home page view.
+Braedon Billingsley, Mehak Saini, Jack Le
+This is the timeline view.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -17,19 +17,24 @@ This is the home page view.
 
     <!--Title and Description-->
     <div class="home-title-description text-center">
-        <h1>Welcome to the BAS Business Portfolio</h1>
-        <p>Please create a portfolio timeline and begin adding portfolio items!</p>
+        <h1>Welcome "User" to your portfolio timeline!</h1>
+        <p>Please add portfolio items to populate your timeline.</p>
     </div>
 
     <!--Main Content-->
     <div class="row">
-        <div class="text-center">
-            <a class="btn btn-success" href="timeline">Begin your portfolio timeline.</a>
+        <div class="add-item text-center">
+            <a class="btn btn-success" href="#">Add a portfolio item.</a>
         </div>
     </div>
-
+    <div class="row">
+        <div class="view-task text-center">
+            <a class="btn btn-success" href="#">View tasks</a>
+        </div>
+    </div>
 </div>
 </body>
+
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>
 </html>

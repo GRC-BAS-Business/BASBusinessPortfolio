@@ -1,10 +1,10 @@
 <?php
 /**
- *  app/views/templates/DatabaseConnection.php class for BAS Business Portfolio
+ *  app/model/DatabaseConnection.php class for BAS Business Portfolio
  *
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
  *  @copyright 2024
- *  @url https://bbillingsley.greenriverdev.com/355/BASBusinessPortfolio
+ *  @url https://bas-business-portfolio.greenriverdev.com
  */
 require_once($_SERVER['DOCUMENT_ROOT'] .'/../db-config.php');
 class DatabaseConnection

@@ -14,14 +14,26 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-// Instantiate Fat-free framework (F3), and new Controller F3 object, and RequestValidator
+// Instantiate Fat-free framework (F3), and new Controller F3 object
 $f3 = Base::instance();
 $con = new Controller($f3);
 
-// Default route to "Home" page
+// Default route to "home.html" view
 $f3->route('GET /', function () use ($con)
 {
     $con->renderHome();
+});
+
+// Route to "login.html" view
+$f3->route('GET /login', function () use ($con)
+{
+    $con->renderLogin();
+});
+
+// Route to "timeline.html" view
+$f3->route('GET /timeline', function () use ($con)
+{
+    $con->renderTimeline();
 });
 
 // Run the Fat-Free instance

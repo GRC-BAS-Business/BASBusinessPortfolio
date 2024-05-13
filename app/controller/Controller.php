@@ -16,22 +16,42 @@ class Controller
      * @param mixed $f3 The global $f3 hive to be assigned to the $_f3 parameter.
      * @return void
      */
-    public function __construct(mixed $f3)
+    public function __construct(object $f3)
     {
         $this->_f3 = $f3;
     }
 
     /**
-     * Renders the home HTML page.
-     *
-     * This method creates a new instance of the Template class and uses it to render the home.html page.
-     * The rendered HTML is then echoed to the output.
+     * Renders the home view.
      *
      * @return void
      */
     function renderHome(): void
     {
+        // TODO check if user is stored in session, if not default to login page
         $view = new Template();
         echo $view->render('app/view/home.html');
+    }
+
+    /**
+     * Renders the login view.
+     *
+     * @return void
+     */
+    function renderLogin(): void
+    {
+        $view = new Template();
+        echo $view->render('app/view/login.html');
+    }
+
+    /**
+     * Renders the portfolio_timeline view.
+     *
+     * @return void
+     */
+    function renderTimeline(): void
+    {
+        $view = new Template();
+        echo $view->render('app/view/timeline.html');
     }
 }
