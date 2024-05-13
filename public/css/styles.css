@@ -4,14 +4,42 @@
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
 **/
 
+/* Main view styles */
 html {
     scroll-behavior: smooth;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-
+    margin: 0 0 100px;
+    bottom: 100px;
 }
 
 body, html {
 
 }
+
+footer {
+    background-color: #52874A;
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    padding: 15px;
+    width: 100%;
+}
+
+header {
+    background-color: #52874A;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* timeline.html */
+
+.add-item {
+    padding-bottom: 20px;
+}
+
+.view-item {}
