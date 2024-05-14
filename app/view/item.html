@@ -1,0 +1,50 @@
+<!--
+BAS Business Portfolio
+app/view/portfolio/item.html
+
+Braedon Billingsley, Mehak Saini, Jack Le
+This is the portfolio/item.html view.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<!--Head-->
+<include href="app/view/components/head.html"></include>
+<body>
+<!--Header-->
+<include href="app/view/components/header.html"></include>
+<!--Item Page-->
+<div class="container">
+
+    <!--Title and Description-->
+    <div class="home-title-description text-center">
+        <h1>Create a portfolio item below</h1>
+        <p>Please complete the following, then submit to your timeline.</p>
+    </div>
+
+    <!--Create portfolio item form-->
+    <div>
+        <form action="#" method="post">
+            <div>
+                <label for="itemName">Item Name:</label><br>
+                <input type="text" id="itemName" name="itemName">
+            </div>
+            <div>
+                <label for="itemDescription">Description:</label><br>
+                <textarea id="itemDescription" name="itemDescription"></textarea>
+            </div>
+            <div>
+                <label for="itemDate">Date:</label><br>
+                <input type="date" id="itemDate" name="itemDate">
+            </div>
+            <div>
+                <input class="btn btn-success item-submit"  type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+
+<!--Footer-->
+<include href="app/view/components/footer.html"></include>
+</html>
