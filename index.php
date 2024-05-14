@@ -36,6 +36,12 @@ $f3->route('GET /timeline', function () use ($con)
     $con->renderTimeline();
 });
 
+// Route to "item.html" view
+$f3->route('GET /item', function () use ($con)
+{
+    $con->renderItem();
+});
+
 // Run the Fat-Free instance
 $f3->run();
 

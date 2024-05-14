@@ -22,7 +22,7 @@ class Controller
     }
 
     /**
-     * Renders the home view.
+     * Renders the home.html view.
      *
      * @return void
      */
@@ -34,7 +34,7 @@ class Controller
     }
 
     /**
-     * Renders the login view.
+     * Renders the login.html view.
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class Controller
     }
 
     /**
-     * Renders the portfolio_timeline view.
+     * Renders the timeline.html view.
      *
      * @return void
      */
@@ -53,5 +53,16 @@ class Controller
     {
         $view = new Template();
         echo $view->render('app/view/timeline.html');
+    }
+
+    /**
+     * Renders the item.html view.
+     *
+     * @return void
+     */
+    function renderItem(): void
+    {
+        $view = new Template();
+        echo $view->render('app/view/item.html');
     }
 }

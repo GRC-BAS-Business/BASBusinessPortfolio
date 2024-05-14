@@ -4,7 +4,7 @@
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
 **/
 
-/* Main view styles */
+/* global styles */
 html {
     scroll-behavior: smooth;
     position: relative;
@@ -35,11 +35,19 @@ header {
     margin-bottom: 20px;
     width: 100%;
 }
+/* home.html */
+.home-title-description {
 
-/* timeline.html */
+}
 
+/* login.html styles */
+
+/* timeline.html styles */
 .add-item {
     padding-bottom: 20px;
 }
 
 .view-item {}
+
+/* item.html styles */
+.item-submit {}
