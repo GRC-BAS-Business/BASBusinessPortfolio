@@ -37,6 +37,16 @@ header {
     width: 100%;
 }
 
+/* Temporary Hyperlink Styles */
+a[href^="#"] {
+    color: white;
+    text-decoration: none;
+}
+
+a[href^="#"]:hover {
+    color: #ffc107;
+}
+
 /* Push Button Styles */
 .push {
     background-color: #b28800;
@@ -58,12 +68,15 @@ header {
     transform: translateY(-2px);
 }
 
+
 /* home.html */
 .home-title-description {
 
 }
 
+
 /* login.html styles */
+
 
 /* timeline.html styles */
 .add-item {
@@ -71,6 +84,7 @@ header {
 }
 
 .view-item {}
+
 
 /* item.html styles */
 .item-submit {}

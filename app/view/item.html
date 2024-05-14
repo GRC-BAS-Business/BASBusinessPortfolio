@@ -1,10 +1,3 @@
-<!--
-BAS Business Portfolio
-app/view/portfolio/item.html
-
-Braedon Billingsley, Mehak Saini, Jack Le
-This is the portfolio/item.html view.
--->
 <!DOCTYPE html>
 <html lang="en">
 <!--Head-->
@@ -23,7 +16,7 @@ This is the portfolio/item.html view.
 
     <!--Create portfolio item form-->
     <div>
-        <form action="#" method="post">
+        <form id="portfolioForm" action="#" method="post">
             <div>
                 <label for="itemName">Item Name:</label><br>
                 <input type="text" id="itemName" name="itemName">
@@ -36,13 +29,23 @@ This is the portfolio/item.html view.
                 <label for="itemDate">Date:</label><br>
                 <input type="date" id="itemDate" name="itemDate">
             </div>
-            <div>
-                <input class="btn btn-warning item-submit"  type="submit" value="Submit">
+            <div class="mt-4">
+                <button class="push" type="button" id="submitButton">
+                    <span class="front">Submit</span>
+                </button>
             </div>
         </form>
     </div>
 
 </div>
+
+<script>
+    // JavaScript to handle form submission
+    document.getElementById("submitButton").addEventListener("click", function() {
+        document.getElementById("portfolioForm").submit();
+    });
+</script>
+
 </body>
 
 <!--Footer-->
