@@ -37,6 +37,27 @@ header {
     width: 100%;
 }
 
+/* Push Button Styles */
+.push {
+    background-color: #b28800;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.front {
+    display: block;
+    padding: 1em 2em;
+    border-radius: 10px;
+    background: #ffc107;
+    transform: translateY(-6px);
+}
+
+.push:active .front {
+    transform: translateY(-2px);
+}
+
 /* home.html */
 .home-title-description {
 
