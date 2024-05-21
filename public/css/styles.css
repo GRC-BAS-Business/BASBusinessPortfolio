@@ -14,55 +14,22 @@ html {
 body {
     margin: 0 0 100px;
     bottom: 100px;
+    font-family: "Gopher",sans-serif;
 }
 
 body, html {
 
 }
-
-footer {
-    background-color: #161ea1;
-    color: white;
-    position: absolute;
-    overflow: hidden;
-    bottom: 0;
-    padding: 15px;
-    width: 100%;
-}
-
-header {
-    background-color: #161ea1;
-    padding: 15px;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-/* Push Button Styles */
-.push {
-    background-color: #b28800;
-    border: none;
-    border-radius: 10px;
-    padding: 0;
-    cursor: pointer;
-}
-
-.front {
-    display: block;
-    padding: 1em 2em;
-    border-radius: 10px;
-    background: #ffc107;
-    transform: translateY(-6px);
-}
-
-.push:active .front {
-    transform: translateY(-2px);
-}
-
 /* home.html */
 .home-title-description {
 
 }
 
+.logo{
+    margin:20px;
+    font-size:20px;
+
+}
 /* login.html styles */
 
 /* timeline.html styles */
@@ -74,3 +41,63 @@ header {
 
 /* item.html styles */
 .item-submit {}
+
+
+
+/*HOME PAGE styles*/
+.logo{
+    font-size: 25px;
+
+
+}
+
+/* arrange link-list  */
+.link-list{
+    position: absolute;
+    top: 10px;
+    right:10px;
+    font-size:20px
+}
+
+.home-title-description{
+    padding-top: 150px;
+}
+/*Home page background*/
+.bg{
+    background-image: url("../img/bg-home.png");
+    background-size: 100% 100%; /*adjust width/height*/
+    font-family: "Gopher", sans-serif;
+}
+/*description home-pg color*/
+.desc-color-home{
+    color: #94ABF9;
+    font-size: 50px;
+
+}
+.remove-text-space{
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+.home-btn{
+   display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    .rounded-btn{
+        border-radius: 50px;
+        background-color: #171d3a;
+        color: white;
+        padding: 30px 40px;
+        font-size: 20px;
+    }
+
+.rounded-btn:hover{
+background-color: #94ABF9}
+    color: white;
+}
+.nav-anchor-item{
+    .nav-link{
+        color: #111111
+
+    }
+}
