@@ -1,4 +1,3 @@
-
 /*  public/css/styles.css
  *  This is the global stylesheet for the BAS Business Portfolio project
  *
@@ -21,16 +20,32 @@ body {
 body, html {
 
 }
+
+footer {
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+}
+
+header {
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 /* home.html */
 .home-title-description {
-
+    padding-top: 50px;
+    text-align: center;
 }
 
 .logo{
     margin:20px;
     font-size:20px;
-
 }
+
 /* login.html styles */
 
 /* timeline.html styles */
@@ -43,52 +58,52 @@ body, html {
 /* item.html styles */
 .item-submit {}
 
-
-
 /*HOME PAGE styles*/
-.logo{
+.logo {
     font-size: 25px;
+}
 
-
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* This will create maximum distance between items */
 }
 
 /* arrange link-list  */
-.link-list{
-    position: absolute;
+.link-list {
+    display: flex;
+    justify-content: flex-end;
     top: 10px;
     right:10px;
     font-size:20px
 }
 
-.home-title-description{
-    padding-top: 150px;
-}
-
 /*Default background*/
-.bg{
+.bg {
     background-image: url("../img/bg-image.jpg");
     background-size: 100% 100%; /*adjust width/height*/
     font-family: "Gopher", sans-serif;
 }
 
 /*Home page background*/
-.bg-home{
+.bg-home {
     background-image: url("../img/bg-home.png");
     background-size: 100% 100%; /*adjust width/height*/
     font-family: "Gopher", sans-serif;
 }
 
 /*description home-pg color*/
-.desc-color-home{
+.desc-color-home {
     color: #94ABF9;
     font-size: 50px;
 
 }
-.remove-text-space{
+.remove-text-space {
     margin: 0;
     padding: 0;
     font-size: 20px;
 }
+
 .home-btn{
     display: flex;
     justify-content: center;
@@ -105,9 +120,9 @@ body, html {
         background-color: #94ABF9}
     color: white;
 }
-.nav-anchor-item{
-    .nav-link{
-        color: #111111
 
-    }
+.nav-link-anchor {
+    color: #111111;
+    text-decoration: none;
+    padding: 15px;
 }
