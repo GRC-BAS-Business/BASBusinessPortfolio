@@ -62,12 +62,21 @@ body, html {
 .home-title-description{
     padding-top: 150px;
 }
-/*Home page background*/
+
+/*Default background*/
 .bg{
+    background-image: url("../img/bg-image.jpg");
+    background-size: 100% 100%; /*adjust width/height*/
+    font-family: "Gopher", sans-serif;
+}
+
+/*Home page background*/
+.bg-home{
     background-image: url("../img/bg-home.png");
     background-size: 100% 100%; /*adjust width/height*/
     font-family: "Gopher", sans-serif;
 }
+
 /*description home-pg color*/
 .desc-color-home{
     color: #94ABF9;
