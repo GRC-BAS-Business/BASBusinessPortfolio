@@ -21,14 +21,6 @@ body, html {
 
 }
 
-footer {
-    position: absolute;
-    overflow: hidden;
-    bottom: 0;
-    padding: 10px;
-    width: 100%;
-}
-
 header {
     padding: 15px;
     margin-bottom: 20px;
@@ -78,21 +70,23 @@ header {
     font-size:20px
 }
 
-/*Default background*/
+/* Background Styles */
+.bg, .bg-home {
+    background-size: 100% 100%;
+    font-family: "Gopher", sans-serif;
+}
+
+/* Default Background */
 .bg {
     background-image: url("../img/bg-image.jpg");
-    background-size: 100% 100%; /*adjust width/height*/
-    font-family: "Gopher", sans-serif;
 }
 
-/*Home page background*/
+/* Home Page Background */
 .bg-home {
     background-image: url("../img/bg-home.png");
-    background-size: 100% 100%; /*adjust width/height*/
-    font-family: "Gopher", sans-serif;
 }
 
-/*description home-pg color*/
+/* description home-pg color*/
 .desc-color-home {
     color: #94ABF9;
     font-size: 50px;
