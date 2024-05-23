@@ -9,7 +9,7 @@ This is the home page view.
 <html lang="en">
 <!--Head-->
 <include href="app/view/components/head.html"></include>
-<body>
+<body class="bg-home">
 <!--Header-->
 <include href="app/view/components/header.html"></include>
 <!--Home Page-->
@@ -17,25 +17,21 @@ This is the home page view.
 
     <!--Title and Description-->
     <div class="home-title-description text-center">
-        <h1>Welcome to the BAS Business Portfolio</h1>
-        <p>Please create a portfolio timeline and begin adding portfolio items!</p>
+
+        <h1 class="desc-color-home">Welcome to Your</h1>
+        <h1 class="desc-color-home">Professional Hub!</h1>
+        <p class="remove-text-space">Come on in, the career waters are</p>
+        <p class="remove-text-space">warm!</p>
     </div>
 
     <!--Main Content-->
     <div class="row">
-        <div class="text-center mt-2">
-            <a href="timeline">
-                <button class="push">
-                    <span class="front">
-                        Begin your portfolio timeline.
-                    </span>
-                </button>
-            </a>
+        <div class="home-btn">
+            <a class="btn rounded-btn" href="timeline">START HERE</a>
         </div>
     </div>
-
 </div>
 </body>
 <!--Footer-->
-<include href="app/view/components/footer.html"></include>
+
 </html>
