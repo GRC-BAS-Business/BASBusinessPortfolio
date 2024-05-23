@@ -1,3 +1,4 @@
+
 /*  public/css/styles.css
  *  This is the global stylesheet for the BAS Business Portfolio project
  *
@@ -89,7 +90,7 @@ body, html {
     font-size: 20px;
 }
 .home-btn{
-   display: flex;
+    display: flex;
     justify-content: center;
     padding-top: 30px;
     .rounded-btn{
@@ -100,8 +101,8 @@ body, html {
         font-size: 20px;
     }
 
-.rounded-btn:hover{
-background-color: #94ABF9}
+    .rounded-btn:hover{
+        background-color: #94ABF9}
     color: white;
 }
 .nav-anchor-item{

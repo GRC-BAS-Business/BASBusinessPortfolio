@@ -1,15 +1,16 @@
 <?php
 /**
- *  app/model/DatabaseConnection.php class for BAS Business Portfolio
+ *  app/model/Database.php class for BAS Business Portfolio
  *
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
  *  @copyright 2024
  *  @url https://bas-business-portfolio.greenriverdev.com
  */
-require_once($_SERVER['DOCUMENT_ROOT'] .'/../db-config.php');
-class DatabaseConnection
+require_once($_SERVER['DOCUMENT_ROOT'] .'/../bas-portfolio-db-config.php');
+class Database
 {
     private static ?PDO $dbh = null;
+
     private function __construct() {}
 
     /**
@@ -24,7 +25,6 @@ class DatabaseConnection
         {
             try
             {
-                /* @noinspection PhpUndefinedConstantInspection */
                 self::$dbh = new PDO(dsn: DB_DSN, username: DB_USERNAME, password: DB_PASSWORD);
             }
 
@@ -34,7 +34,6 @@ class DatabaseConnection
                 throw $e;
             }
         }
-
         return self::$dbh;
     }
 }

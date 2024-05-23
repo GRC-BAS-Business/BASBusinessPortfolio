@@ -18,17 +18,18 @@
     <div>
         <form id="portfolioForm" action="#" method="post">
             <div>
-                <label for="itemName">Item Name:</label><br>
-                <input type="text" id="itemName" name="itemName">
+                <label for="title">Item Name:</label><br>
+                <input type="text" id="title" name="title">
             </div>
+
             <div>
                 <label for="itemDescription">Description:</label><br>
                 <textarea id="itemDescription" name="itemDescription"></textarea>
             </div>
             <div>
-                <label for="itemDate">Date:</label><br>
-                <input type="date" id="itemDate" name="itemDate">
+                <label><select type="drop" id="itemType"></select></label>
             </div>
+
             <div class="mt-4">
                 <button class="push" type="button" id="submitButton">
                     <span class="front">Submit</span>

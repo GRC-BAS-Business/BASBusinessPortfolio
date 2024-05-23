@@ -24,6 +24,14 @@ $f3->route('GET /', function () use ($con)
     $con->renderHome();
 });
 
+// Route to handle login form submission
+$f3->route('POST /login', function () use ($con)
+{
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $con->processLogin($username, $password);
+});
+
 // Route to "login.html" view
 $f3->route('GET /login', function () use ($con)
 {
@@ -36,10 +44,26 @@ $f3->route('GET /timeline', function () use ($con)
     $con->renderTimeline();
 });
 
+// Route to handle item form submission
+$f3->route('POST /item', function () use ($con)
+{
+    $con->createItem();
+});
+
 // Route to "item.html" view
 $f3->route('GET /item', function () use ($con)
 {
     $con->renderItem();
+});
+
+$f3->route('GET /get-items', function() {
+    header('Content-Type: application/json');
+
+    // Call the function that fetches all items
+    $itemTypes = Item::getItems();
+
+    // Return the result as a JSON string
+    echo json_encode($itemTypes);
 });
 
 // Run the Fat-Free instance

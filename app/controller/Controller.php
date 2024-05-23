@@ -1,14 +1,15 @@
 <?php
 /**
- *  This is the CONTROLLER for BAS Business Portfolio application
+ *  This is the Controller class for BAS Business Portfolio application
  *
- *  @authors Braedon Billingsley, Will
+ *  @authors Braedon Billingsley, Will Castillo, Noah Lanctot, Mehak Saini
  *  @copyright 2024
  *  @url https://bas-business-portfolio.greenriverdev.com
  **/
 class Controller
 {
     private object $_f3;
+    private PDO $_database;
 
     /**
      * Constructs a controller object.
@@ -19,6 +20,7 @@ class Controller
     public function __construct(object $f3)
     {
         $this->_f3 = $f3;
+        $this->_database = Database::getConnection();
     }
 
     /**
@@ -28,7 +30,6 @@ class Controller
      */
     function renderHome(): void
     {
-        // TODO check if user is stored in session, if not default to login page
         $view = new Template();
         echo $view->render('app/view/home.html');
     }
@@ -42,6 +43,24 @@ class Controller
     {
         $view = new Template();
         echo $view->render('app/view/login.html');
+    }
+
+    function processLogin($username, $password): void
+    {
+        if (!UserAccount::validateLogin($username, $password)) {
+            // Set error message and reroute to login page
+            $_SESSION['login_error'] = "Invalid username or password format.";
+            $this->_f3->reroute('login');
+        }
+
+        if (!UserAccount::authenticateUser($username, $password)) {
+            // Set error message and reroute to login page
+            $_SESSION['login_error'] = "Invalid username or password.";
+            $this->_f3->reroute('login');
+        }
+
+        // The user is authenticated - reroute to home
+        $this->_f3->reroute('');
     }
 
     /**
@@ -64,5 +83,18 @@ class Controller
     {
         $view = new Template();
         echo $view->render('app/view/item.html');
+    }
+
+    // TODO add itemID to portfolioID and add PortfolioID to studentID
+    function createItem(): void
+    {
+        $portfolioID = $_SESSION['portfolioID'];
+        $createdDate = new DateTime();
+        $itemType = $_SESSION['itemType'];
+        $itemDescription = $_POST['itemDescription'];
+        $title = $_POST['title'];
+
+        $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
+        $item->save();
     }
 }
