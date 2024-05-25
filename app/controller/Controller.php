@@ -84,6 +84,7 @@ class Controller
         $view = new Template();
         echo $view->render('app/view/item.html');
     }
+<<<<<<< Updated upstream
 
     // TODO add itemID to portfolioID and add PortfolioID to studentID
     function createItem(): void
@@ -96,5 +97,16 @@ class Controller
 
         $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
         $item->save();
+=======
+    /**
+     * Renders the dashBoard.html view.
+     *
+     * @return void
+     */
+    function renderDashBoard(): void
+    {
+        $view = new Template();
+        echo $view->render('app/view/dashBoard.html');
+>>>>>>> Stashed changes
     }
 }
