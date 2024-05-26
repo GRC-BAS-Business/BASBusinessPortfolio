@@ -33,25 +33,22 @@ This is the request access view page
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary">Request Access</button>
                 </div>
-                <div class="d-flex justify-content-between mt-4">
-                    <div>
-                        <a href="access-code">Have an access code?</a>
-                    </div>
-
-                    <!-- Failed Access Request Error -->
-                    <div id="error-message" class="alert alert-danger" role="alert" {{ isset(@SESSION.error) ? '' : 'style="display: none;"' }}>
-                        {{ isset(@SESSION.error) ? @SESSION.error : '' }}
-                    </div>
-
-                    <!-- Success Message -->
-                    <div id="success-message" class="alert alert-success" role="alert" {{ isset(@SESSION.success) ? '' : 'style="display: none;"' }}>
-                        {{ isset(@SESSION.success) ? @SESSION.success : '' }}
-                    </div>
+                <div>
+                    <a href="access-code">Have an access code?</a>
+                </div>
+                <!-- Failed Access Request Error -->
+                <div id="error-message" class="alert alert-danger" role="alert" {{ isset(@SESSION.error) ? '' : 'style="display: none;"' }}>
+                    {{ isset(@SESSION.error) ? @SESSION.error : '' }}
+                </div>
+                <!-- Success Message -->
+                <div id="success-message" class="alert alert-success" role="alert" {{ isset(@SESSION.success) ? '' : 'style="display: none;"' }}>
+                    {{ isset(@SESSION.success) ? @SESSION.success : '' }}
                 </div>
             </form>
         </div>
     </div>
 </div>
-
+<!-- Link to the external JavaScript file -->
+<script src="public/js/request_access.js"></script>
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>

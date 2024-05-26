@@ -1,0 +1,52 @@
+<!--
+BAS Business Portfolio
+app/view/portfolio/task.html
+
+Braedon Billingsley, Mehak Saini, Jack Le
+This is the portfolio/task.html view.
+-->
+
+<!-- Head -->
+<include href="app/view/components/head.html"></include>
+
+<body class="bg">
+
+<!-- Header -->
+<include href="app/view/components/header.html"></include>
+
+<!--Task Page-->
+<div class="container">
+
+    <!--Title and Description-->
+    <div class="home-title-description text-center">
+        <h1>Create a portfolio task below</h1>
+        <p>Please complete the following, then submit to your timeline.</p>
+    </div>
+
+    <!--Create portfolio task form-->
+    <div>
+        <form id="taskForm" action="#" method="post">
+            <div>
+                <label for="taskTitle">Title:</label><br>
+                <input type="text" id="taskTitle" name="title">
+            </div>
+
+            <div>
+                <label for="taskDescription">Description:</label><br>
+                <textarea id="taskDescription" name="itemDescription"></textarea>
+            </div>
+            <div>
+                <label><select type="drop" id="taskType"></select></label>
+            </div>
+
+            <div class="mt-4">
+                <button class="push" type="button" id="submitButton">
+                    <span class="front">Create Task</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Footer-->
+<include href="app/view/components/footer.html"></include>

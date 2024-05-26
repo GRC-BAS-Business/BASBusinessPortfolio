@@ -31,7 +31,7 @@ class Controller
      */
     function renderHome(): void
     {
-        $this->_f3->clearSessionMessages();
+        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/home.html');
     }
@@ -63,24 +63,19 @@ class Controller
         $response = [];
 
         if (!Validate::isValidEmail($email)) {
-            $response['error'] = $this->interpretError(1);
+            $this->_f3->set('SESSION.error', $this->interpretError(Validate::INVALID_EMAIL));
         } else if (!$message) {
-            $response['error'] = $this->interpretError(6);
+            $this->_f3->set('SESSION.error', $this->interpretError(Validate::INVALID_STRING));
         } else {
-            $adminEmail = 'billingsley.braedon@student.greenriver.edu';
-            $subject = 'Access Request for BAS Business Portfolio';
-            $message = "Email: $email\n\nMessage: $message";
-            $headers = "From: $email";
-            mail($adminEmail, $subject, $message, $headers);
+            $response = Access::createAccessCodeAndMailToStudent($email);
 
-            $access = new Access();
-            $access->createAccessCodeAndMailToStudent($email);
-
-            $response['success'] = $this->interpretError(7);
+            if ($response == Access::DUPLICATE_EMAIL) {
+                $this->_f3->set('SESSION.error', $this->interpretError(Access::DUPLICATE_EMAIL));
+            } elseif ($response == Validate::REQUEST_SUCCESS) {
+                $this->_f3->set('SESSION.success', $this->interpretError(Validate::REQUEST_SUCCESS));
+            }
         }
-
         echo json_encode($response);
-        exit;
     }
 
     /**
@@ -103,22 +98,20 @@ class Controller
     function verifyAccessCode(string $accessCode): void
     {
         // sanitize and validate $accessCode
-
         $accessCode = Validate::sanitizeString($accessCode);
-
         if (!Validate::isValidAccessCode($accessCode)) {
             // Handle invalid accessCode scenario...
             $this->_f3->set('SESSION.error', $this->interpretError(5));
             $this->_f3->reroute('access-code');
         }
 
-        // Assume you have a checkAccessCode method in a User class or similar,
-        // which compares the provided access code with the one stored in the database.
+
+        // compares the provided access code with the one stored in the database.
         if (Access::checkAccessCode($accessCode)) {
             $this->_f3->set('SESSION.isVerified', true);
 
             // allow the user to sign up
-            $this->_f3->reroute('signup');
+            $this->_f3->reroute('login');
         } else {
             $this->_f3->set('SESSION.error', $this->interpretError(5));
             $this->_f3->reroute('access-code');
@@ -135,6 +128,7 @@ class Controller
             Validate::INCORRECT_ACCESS_CODE => 'The access code you entered is incorrect!',
             Validate::INVALID_STRING => 'Please enter a valid string',
             Validate::REQUEST_SUCCESS => 'Access request sent successfully!',
+            Validate::DUPLICATE_EMAIL => 'This email already exists',
             default => 'No match!',
         };
     }
@@ -146,7 +140,7 @@ class Controller
      */
     function renderLogin(): void
     {
-        $this->_f3->clearSessionMessages();
+        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/login.html');
     }
@@ -163,7 +157,7 @@ class Controller
      */
     function renderTimeline(): void
     {
-        $this->_f3->clearSessionMessages();
+        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/timeline.html');
     }
@@ -175,7 +169,7 @@ class Controller
      */
     function renderItem(): void
     {
-        $this->_f3->clearSessionMessages();
+        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/item.html');
     }
@@ -204,6 +198,18 @@ class Controller
 
     public function createTimeline(): void {
         // TODO Create 1 timeline object in Student account upon account creation.
+    }
+
+    /**
+     * Renders the task.html view.
+     *
+     * @return void
+     */
+    public function renderTask(): void
+    {
+        $this->clearSessionMessages();
+        $view = new Template();
+        echo $view->render('app/view/task.html');
     }
 
     /**

@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 400) {
+                console.log(xhr.responseText);
                 const response = JSON.parse(xhr.responseText);
                 handleResponse(response);
             } else {

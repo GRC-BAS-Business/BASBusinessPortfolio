@@ -22,11 +22,6 @@ $f3 = Base::instance();
 $con = new Controller($f3);
 $ajax = new AJAX($f3);
 
-//// Set f3 ONERROR function
-//$f3->set('ONERROR', function($f3) {
-//    echo $f3->get('ERROR.text');
-//});
-
 // Default route to "home.html" view
 $f3->route('GET /', function () use ($con)
 {
@@ -93,7 +88,6 @@ $f3->route('GET /item', function () use ($con)
     $con->renderItem();
 });
 
-<<<<<<< Updated upstream
 $f3->route('GET /get-items', function() {
     header('Content-Type: application/json');
 
@@ -104,13 +98,12 @@ $f3->route('GET /get-items', function() {
     echo json_encode($itemTypes);
 });
 
-=======
-$f3->route('GET /dashBoard', function () use ($con)
+// Route to "task.html" view
+$f3->route('GET /task', function () use ($con)
 {
-    $con->renderDashBoard();
-
+    $con->renderTask();
 });
->>>>>>> Stashed changes
+
 // Run the Fat-Free instance
 $f3->run();
 
