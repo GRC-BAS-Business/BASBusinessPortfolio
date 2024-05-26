@@ -93,6 +93,7 @@ $f3->route('GET /item', function () use ($con)
     $con->renderItem();
 });
 
+<<<<<<< Updated upstream
 $f3->route('GET /get-items', function() {
     header('Content-Type: application/json');
 
@@ -103,6 +104,13 @@ $f3->route('GET /get-items', function() {
     echo json_encode($itemTypes);
 });
 
+=======
+$f3->route('GET /dashBoard', function () use ($con)
+{
+    $con->renderDashBoard();
+
+});
+>>>>>>> Stashed changes
 // Run the Fat-Free instance
 $f3->run();
 

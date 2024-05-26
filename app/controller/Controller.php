@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 /**
  *  This is the Controller class for BAS Business Portfolio application
  *
@@ -181,6 +179,7 @@ class Controller
         $view = new Template();
         echo $view->render('app/view/item.html');
     }
+
 
     public function createItemForStudent(int $studentID): void
     {

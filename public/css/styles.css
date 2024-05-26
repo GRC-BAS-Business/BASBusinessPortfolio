@@ -115,8 +115,91 @@ header {
     color: white;
 }
 
+<<<<<<< Updated upstream
 .nav-link-anchor {
     color: #111111;
     text-decoration: none;
     padding: 15px;
 }
+=======
+    }
+}
+
+/*student dashboard*/
+.row2{
+    padding-top: 50px;
+
+}
+.custom{
+    border-radius: 20px;
+    text-align: center;
+    color: #94ABF9;
+    padding-top: 210px;
+    height: 30px;
+    max-width:250px
+}
+.custom:hover {
+    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11),
+    0 24px 46px var(--box-shadow-color);
+}
+.custom-col{
+    padding-top: 80px;
+}
+#img1{
+    background-image:url("../img/icon1.png");
+    background-size: 100px 100px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img2{
+    background-image:url("../img/icon2.png");
+    background-size: 100px 100px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img3{
+    background-image:url("../img/icon3.png");
+    background-size: 70px 70px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img4{
+    background-image:url("../img/icon4.png");
+    background-size: 70px 70px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img5{
+    background-image:url("../img/icon5.png");
+    background-size: 100px 100px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img6{
+    background-image:url("../img/icon6.png");
+    background-size: 100px 100px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+#img7{
+    background-image:url("../img/icon7.png");
+    background-size: 100px 100px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+
+#img{
+    background-image:url("../img/icon0.png");
+    background-size: 70px 70px;
+    background-repeat:no-repeat;
+    background-position:center;
+    --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+>>>>>>> Stashed changes
