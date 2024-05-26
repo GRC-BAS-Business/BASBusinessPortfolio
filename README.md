@@ -3,7 +3,6 @@ A usability focused online platform that empowers BAS Business Students at GRC t
 
 ##  🏠 [Homepage]("https://bas-business-portfolio.greenriverdev.com")
 ##  📁 [GitHub Repo](https://github.com/GRC-BAS-Business/BASBusinessPortfolio)
-##  🏕️ [BaseCamp](https://3.basecamp.com/5243442/projects/37013259)
 
 ## ‍🎓 Who is this for? 
 BAS Business Students at GRC, especially those struggling to build professional profiles and manage busy schedules.
@@ -52,27 +51,6 @@ client-side interactivity, JSON for data interchange, and a PHP templating frame
 | 1. Provide instructions on how to access the link and use the BAS Business Portfolio platform. |
 | 2. etc...                                                                                      |
 | 3. etc...                                                                                      |
-
-## 🖼️ Screenshots
-Visual content on the structure, design, sequence flow, and relationships of the BAS Business Portfolio website.
-<br>
-
-#### UML Class Diagrams
-![picture alt](/assets/Sprint3-UserAccountStudent-BAS_Business_Portfolio_Project___UML_Class_Diagram__UserAccount__Student.png "Account - UML Class Diagram")
-![picture alt](/assets/Sprint3-PortfolioTimelineTaskItem-BAS_Business_Portfolio_Project___UML_Class_Diagram__PortfolioTimeline__PortfolioTask__PortfolioItem.png "Portfolio Timeline - UML Class Diagram")
-![picture alt](/assets/Sprint3-CompleteDiagram-BAS_Business_Portfolio_Project___Account__User__Admin_UML_Class_Diagram.png "Complete - UML Class Diagram")
-<br>
-
-#### ER Diagrams
-![picture alt](http://via.placeholder.com/200x150 "ER Diagram")
-![picture alt](http://via.placeholder.com/200x150 "ER Diagram")
-![picture alt](http://via.placeholder.com/200x150 "ER Diagram")
-<br>
-
-#### UI Wireframes / Page Layout
-![picture alt](http://via.placeholder.com/200x150 "UI Wireframe")
-![picture alt](http://via.placeholder.com/200x150 "UI Wireframe")
-![picture alt](http://via.placeholder.com/200x150 "UI Wireframe")
 
 ## 🤝 Contributors
 The people involved in the development of the GRC BAS Business Portfolio website are:

@@ -1,0 +1,42 @@
+<!--
+/app/view/components/access_code.html
+BAS Business Portfolio
+
+Braedon Billingsley, Mehak Saini, Will Castillo, Noah Lanctot
+This is the access code view page
+-->
+
+<!-- Head -->
+<include href="app/view/components/head.html"></include>
+
+<body class="bg">
+
+<!-- Header -->
+<include href="app/view/components/header.html"></include>
+
+<!-- Access Code Page-->
+<div class="container d-flex justify-content-center align-items-center">
+    <!-- Access Code Card -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title text-center mb-3">Enter Access Code</h5>
+            <form action="access-code" method="POST">
+                <div class="mb-3">
+                    <label for="access-code" class="form-label">Access code</label>
+                    <input type="text" class="form-control" id="access-code" name="accessCode" aria-describedby="accessCodeHelp" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <div id="access-code-error" class="alert alert-danger" role="alert" style="display: {{ isset(@SESSION.error) ? 'block' : 'none' }};">
+                        {{ @SESSION.error }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Footer-->
+<include href="app/view/components/footer.html"></include>

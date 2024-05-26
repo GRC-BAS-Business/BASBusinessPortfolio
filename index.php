@@ -10,18 +10,55 @@
 require_once('vendor/autoload.php');
 
 // Turn on error reporting and start the PHP session
+session_start([
+    'cookie_lifetime' => 86400, //expires in a day
+]);
+// in production scenario be sure to log errors instead of display
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start();
 
 // Instantiate Fat-free framework (F3), and new Controller F3 object
 $f3 = Base::instance();
 $con = new Controller($f3);
+$ajax = new AJAX($f3);
+
+//// Set f3 ONERROR function
+//$f3->set('ONERROR', function($f3) {
+//    echo $f3->get('ERROR.text');
+//});
 
 // Default route to "home.html" view
 $f3->route('GET /', function () use ($con)
 {
     $con->renderHome();
+});
+
+$f3->route('POST /request-access', function($f3) use($con, $ajax) {
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    if ($f3->get('AJAX')) {
+        $con->processAccessRequest($email, $message);
+    } else {
+        $ajax->processAccessRequestWithRedirect($email, $message);
+    }
+});
+
+// Route to "request_access.html" view
+$f3->route('GET /request-access', function () use ($con)
+{
+    $con->renderRequestAccess();
+});
+
+// Route to "access_code.html" view
+$f3->route('GET /access-code', function () use ($con)
+{
+    $con->renderAccessCode();
+});
+
+// Submit Access Code
+$f3->route('POST /access-code', function() use($con) {
+    $accessCode = $_POST['accessCode'];
+    $con->verifyAccessCode($accessCode);
 });
 
 // Route to handle login form submission
