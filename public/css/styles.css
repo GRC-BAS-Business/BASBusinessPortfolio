@@ -98,11 +98,12 @@ header {
     font-size: 20px;
 }
 
-.home-btn{
+.home-btn {
     display: flex;
     justify-content: center;
     padding-top: 30px;
-    .rounded-btn{
+
+    .rounded-btn {
         border-radius: 50px;
         background-color: #171d3a;
         color: white;
@@ -110,96 +111,59 @@ header {
         font-size: 20px;
     }
 
-    .rounded-btn:hover{
-        background-color: #94ABF9}
+    .rounded-btn:hover {
+        background-color: #94ABF9
+    }
+
     color: white;
 }
 
-<<<<<<< Updated upstream
 .nav-link-anchor {
     color: #111111;
     text-decoration: none;
     padding: 15px;
 }
-=======
-    }
+
+
+/*item page*/
+
+.container-item{
+    padding: 100px 700px 100px 100px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.item-text{
+    font-weight: bold;
+}
+input[type="text"],
+textarea,
+input[type="date"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-/*student dashboard*/
-.row2{
-    padding-top: 50px;
-
+.item-btn2{
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color:#3F51B5;
+    border: solid;
+    border-radius: 5px;
+    cursor: pointer;
 }
-.custom{
-    border-radius: 20px;
-    text-align: center;
-    color: #94ABF9;
-    padding-top: 210px;
-    height: 30px;
-    max-width:250px
-}
-.custom:hover {
-    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11),
-    0 24px 46px var(--box-shadow-color);
-}
-.custom-col{
-    padding-top: 80px;
-}
-#img1{
-    background-image:url("../img/icon1.png");
-    background-size: 100px 100px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img2{
-    background-image:url("../img/icon2.png");
-    background-size: 100px 100px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img3{
-    background-image:url("../img/icon3.png");
-    background-size: 70px 70px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img4{
-    background-image:url("../img/icon4.png");
-    background-size: 70px 70px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img5{
-    background-image:url("../img/icon5.png");
-    background-size: 100px 100px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img6{
-    background-image:url("../img/icon6.png");
-    background-size: 100px 100px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
-}
-#img7{
-    background-image:url("../img/icon7.png");
-    background-size: 100px 100px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
+button:hover{
+    background-color: #94ABF9;
 }
 
-#img{
-    background-image:url("../img/icon0.png");
-    background-size: 70px 70px;
-    background-repeat:no-repeat;
-    background-position:center;
-    --box-shadow-color: rgba(206, 178, 252, 0.48);
+.item-btn{
+    padding: 10px 20px;
+    background-color: #597cf4;
+    color:white;
+    border-radius: 115px;
+    border: none;
+    cursor: pointer;;
 }
->>>>>>> Stashed changes

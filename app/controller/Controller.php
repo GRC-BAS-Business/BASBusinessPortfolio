@@ -187,6 +187,7 @@ class Controller
 
         // you would also need to input your item type and title
         $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
+<<<<<<< Updated upstream
 
         // Save the item to the database
         $createdItemId = $item->save();
@@ -206,10 +207,17 @@ class Controller
      * @return void
      */
     public function renderTask(): void
+=======
+        $item->save();
+    }
+
+    function renderTask(): void
+>>>>>>> Stashed changes
     {
         $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/task.html');
+<<<<<<< Updated upstream
     }
 
     /**
@@ -221,5 +229,7 @@ class Controller
     {
         $this->_f3->clear('SESSION.error');
         $this->_f3->clear('SESSION.success');
+=======
+>>>>>>> Stashed changes
     }
 }
