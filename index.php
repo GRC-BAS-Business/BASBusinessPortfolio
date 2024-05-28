@@ -88,11 +88,6 @@ $f3->route('GET /item', function () use ($con)
     $con->renderItem();
 });
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 $f3->route('GET /get-items', function() {
     header('Content-Type: application/json');
 
@@ -103,24 +98,13 @@ $f3->route('GET /get-items', function() {
     echo json_encode($itemTypes);
 });
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 // Route to "task.html" view
-=======
-
->>>>>>> Stashed changes
 $f3->route('GET /task', function () use ($con)
 {
     $con->renderTask();
 });
 
-<<<<<<< Updated upstream
 // Run the Fat-Free instance
-=======
-
-
->>>>>>> Stashed changes
 $f3->run();
 
 
