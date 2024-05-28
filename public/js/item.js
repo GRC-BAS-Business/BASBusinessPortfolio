@@ -21,3 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("Failed to fetch item types. Please reload the page.");
         });
 });
+
+// JavaScript to handle form submission
+document.getElementById("submit-button").addEventListener("click", function() {
+    document.getElementById("item-form").submit();
+});

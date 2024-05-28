@@ -79,7 +79,7 @@ $f3->route('GET /timeline', function () use ($con)
 // Route to handle item form submission
 $f3->route('POST /item', function () use ($con)
 {
-    $con->createItem();
+    $con->processItem();
 });
 
 // Route to "item.html" view
@@ -88,6 +88,7 @@ $f3->route('GET /item', function () use ($con)
     $con->renderItem();
 });
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 =======
 
@@ -103,6 +104,8 @@ $f3->route('GET /get-items', function() {
 });
 
 <<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 // Route to "task.html" view
 =======
 

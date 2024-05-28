@@ -174,4 +174,28 @@ class Item
 
         return $items;
     }
+
+    public function saveItem(): bool
+    {
+        // Get the database connection
+        $dbh = Database::getConnection();
+
+        $sql = "INSERT INTO `PortfolioItem` ( `ItemID`, `Title`, `CreationDate`, 
+            `ItemType`, `ItemDescription`) VALUES (:itemID, :itemTitle, :creationDate, :itemType, :itemDescription)";
+
+        // Prepare the statement
+        $stmt = $dbh->prepare($sql);
+
+        // Bind the parameters
+        $stmt->bindValue(':itemID', $this->_itemID);
+        $stmt->bindValue(':itemTitle', $this->_title);
+        $stmt->bindValue(':creationDate', $this->_creationDate->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':itemType', $this->_itemType);
+        $stmt->bindValue(':itemDescription', $this->_itemDescription);
+        // Execute the statement
+        $stmt->execute();
+
+        return $stmt->rowCount() === 1;
+    }
+
 }

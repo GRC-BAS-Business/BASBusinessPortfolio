@@ -175,7 +175,7 @@ class Controller
     }
 
 
-    public function createItemForStudent(int $studentID): void
+    public function processItem(): void
     {
         // Fetch student id from the session or from the request. Below is just an example
         // $studentId = $_SESSION['userId'];
@@ -184,13 +184,16 @@ class Controller
         $itemDescription = $_POST['itemDescription'];
         $title = $_POST['title'];
         $itemType = $_POST['itemType'];
+        $itemImage = $_POST['itemImage'];
 
         // you would also need to input your item type and title
         $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
 <<<<<<< Updated upstream
 
         // Save the item to the database
-        $createdItemId = $item->save();
+        $item->saveItem();
+
+
         //TODO create item for student and add item to students portfolio
         //TODO save to the database
 
