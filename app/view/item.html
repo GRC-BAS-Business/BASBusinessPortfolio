@@ -1,123 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Styles -->
-    <link rel="stylesheet" href="/328/BASBusinessPortfolio/public/css/styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="#">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/fav/#">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/fav/#">
-    <link rel="manifest" href="public/fav/#">
-    <!-- Title -->
-    <title>BAS Business | Portfolio</title>
 
-</head>
+<!-- Head -->
+<include href="app/view/components/head.html"></include>
 
-<!--
-/app/view/components/header.html
-BAS Business Portfolio
+<body class="bg">
 
-Braedon Billingsley, Mehak Saini, Will Castillo, Noah Lanctot
-This is the <header> component for view pages
--->
+<!-- Header -->
+<include href="app/view/components/header.html"></include>
 
-<!--Header-->
-<header class="header">
-    <!--Navbar-->
-    <nav class="nav-bar">
-        <!--Logo-->
-        <div class="logo">
-            <a class="navbar-brand" href="{{ @BASE }}">
-                <strong>BAS In Business Portfolio</strong>
-            </a>
+<!--Create portfolio item form-->
+<div class="container">
+
+    <!--Title and Description-->
+    <div class="home-title-description text-center">
+        <h1>Create a portfolio item below</h1>
+        <p>Please complete the following, then submit to your item to timeline.</p>
+    </div>
+
+    <form id="item-form" action="item" method="post">
+        <div>
+            <label for="title">Item Name:</label><br>
+            <input type="text" id="title" name="title">
         </div>
 
-
-        <!--Nav Links-->
-
-        <!--Header Links-->
-        <ul class="nav link-list">
-            <li class="nav-anchor-item"><a class="nav-link" href="#">DashBoard</a></li>
-            <li class="nav-anchor-item"><a class="nav-link" href="#">About</a></li>
-            <li class="nav-anchor-item"><a class="nav-link" href="#">Contact</a></li>
-
-        </ul>
-    </nav>
-</header>
-
-<<<<<<< Updated upstream
-<body class="item-b">
-
-<div class="container-item">
-    <h1> Add Item</h1>
-    <button class="item-btn">+ Add Item</button>
-    <form id="item-form" class="hidden">
-        <label class="item-text" for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-        <br>
-=======
-    <!--Create portfolio item form-->
-    <div>
-        <form id="item-form" action="item" method="post">
-            <div>
-                <label for="title">Item Name:</label><br>
-                <input type="text" id="title" name="title">
-            </div>
-
-            <div>
-                <label for="itemDescription">Description:</label><br>
-                <textarea id="itemDescription" name="item-description"></textarea>
-            </div>
-            <div>
-                <label>Type:
-                    <select type="drop" id="item-type">
+        <div>
+            <label for="itemDescription">Description:</label><br>
+            <textarea id="itemDescription" name="item-description"></textarea>
+        </div>
+        <div>
+            <label>Type:
+                <select type="drop" id="item-type">
                     <option>Resume</option>
                     <option>Work Experience</option>
                     <option>Certification</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                <label for="itemImage">Image:</label><br>
-                <input type="file" id="itemImage" name="item-image">
-            </div>
->>>>>>> Stashed changes
-
-<<<<<<< Updated upstream
-            <div class="mt-4">
-                <button class="push" type="button" id="submit-button">
-                    <span class="front">Create Item</span>
-                </button>
-            </div>
-        </form>
-    </div>
-=======
-        <label  class="item-text" for="description"> Description:</label>
-        <textarea id="description" name="description" ></textarea>
-        <br>
-        <label  class="item-text" for="creationDate">Creation Date</label>
-        <input type="date" id="creationDate" name="creationDate" required>
-
-        <button type="submit" class="item-btn2">Add Item</button>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label for="itemImage">Image:</label><br>
+            <input type="file" id="itemImage" name="item-image">
+        </div>
+        <div class="mt-4">
+            <button class="push" type="button" id="submit-button">
+                <span class="front">Create Item</span>
+            </button>
+        </div>
     </form>
-    <table id="item-table">
-
-        <tbody>
-<!--item added dynamically-->
-        </tbody>
-    </table>
->>>>>>> Stashed changes
 </div>
-
-<<<<<<< Updated upstream
-<script src="item.js"></script>
 </body>
-</html>
-=======
+
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>
->>>>>>> Stashed changes
+
