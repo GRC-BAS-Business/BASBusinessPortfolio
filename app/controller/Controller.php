@@ -25,12 +25,25 @@ class Controller
     }
 
     /**
+     * Checks if the user is logged in, otherwise reroutes to the login page.
+     *
+     * @return void
+     */
+    public function checkLogin(): void
+    {
+        if (!$this->_f3->get('SESSION.loggedin')) {
+            $this->_f3->reroute('/login');
+        }
+    }
+
+    /**
      * Renders the home.html view.
      *
      * @return void
      */
     function renderHome(): void
     {
+        $this->checkLogin();
         $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/home.html');
@@ -145,59 +158,109 @@ class Controller
         echo $view->render('app/view/login.html');
     }
 
-    function processLogin($username, $password): void
+    /**
+     * Processes the login form submission.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $password The password provided by the user.
+     * @return void
+     */
+    function processLogin(string $username, string $password): void
     {
+        $username = Validate::sanitizeString($username);
+        $password = Validate::sanitizeString($password);
 
+        if (Validate::isValidLogin($username, $password)) {
+            $authResult = UserAccount::authenticateUser($username, $password);
+
+            if ($authResult) {
+                $this->_f3->set('SESSION.loggedin', true);
+                $this->_f3->set('SESSION.username', $username);
+                $this->_f3->reroute('/timeline');
+            } else {
+                $this->_f3->set('SESSION.error', 'Invalid username or password');
+                $this->_f3->reroute('/login');
+            }
+        } else {
+            $this->_f3->set('SESSION.error', 'Invalid input');
+            $this->_f3->reroute('/login');
+        }
     }
 
     /**
-     * Renders the timeline.html view.
+     * Renders the registration page.
      *
      * @return void
      */
+    function renderRegister(): void
+    {
+        $this->clearSessionMessages();
+        $view = new Template();
+        echo $view->render('app/view/register.html');
+    }
+
+    /**
+     * Processes the registration form submission.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $email The email provided by the user.
+     * @param string $password The password provided by the user.
+     * @param string $confirmPassword The password confirmation provided by the user.
+     * @return void
+     */
+    function processRegister(string $username, string $email, string $password, string $confirmPassword): void
+    {
+        $username = Validate::sanitizeString($username);
+        $email = Validate::sanitizeString($email);
+        $password = Validate::sanitizeString($password);
+        $confirmPassword = Validate::sanitizeString($confirmPassword);
+
+        if (Validate::isValidRegistration($username, $email, $password, $confirmPassword)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $registrationResult = UserAccount::createUser($username, $email, $hashedPassword);
+
+            if ($registrationResult) {
+                $this->_f3->set('SESSION.success', 'Registration successful! Please log in.');
+                $this->_f3->reroute('/login');
+            } else {
+                $this->_f3->set('SESSION.error', 'Registration error. Please try again.');
+                $this->_f3->reroute('/register');
+            }
+        } else {
+            $this->_f3->set('SESSION.error', 'Invalid input. Please correct the errors and try again.');
+            $this->_f3->reroute('/register');
+        }
+    }
+
     function renderTimeline(): void
     {
+        $this->checkLogin();
         $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/timeline.html');
     }
 
-    /**
-     * Renders the item.html view.
-     *
-     * @return void
-     */
     function renderItem(): void
     {
+        $this->checkLogin();
         $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/item.html');
     }
 
-
     public function processItem(): void
     {
-        // Fetch student id from the session or from the request. Below is just an example
-        // $studentId = $_SESSION['userId'];
-
+        $this->checkLogin();
         $createdDate = new DateTime();
         $itemDescription = $_POST['itemDescription'];
         $title = $_POST['title'];
         $itemType = $_POST['itemType'];
         $itemImage = $_POST['itemImage'];
 
-        // you would also need to input your item type and title
         $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
-
-        // Save the item to the database
         $item->saveItem();
-
-
-        //TODO create item for student and add item to students portfolio
-        //TODO save to the database
-
-        // $timeline->save();
     }
+
 
     public function createTimeline(): void {
         // TODO Create 1 timeline object in Student account upon account creation.
@@ -220,5 +283,17 @@ class Controller
     {
         $this->_f3->clear('SESSION.error');
         $this->_f3->clear('SESSION.success');
+    }
+
+    /**
+     * Logs the user out by clearing the session and redirecting to the login page.
+     *
+     * @return void
+     */
+    function logout(): void
+    {
+        $this->_f3->clear('SESSION');
+        session_destroy();
+        $this->_f3->reroute('/login');
     }
 }

@@ -33,6 +33,66 @@ abstract class UserAccount {
     }
 
     /**
+     * Creates a new user in the database.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $email The email provided by the user.
+     * @param string $hashedPassword The hashed password provided by the user.
+     * @return bool True if the user is successfully created, otherwise false.
+     */
+    public static function createUser(string $username, string $email, string $hashedPassword): bool
+    {
+        try {
+            $connection = Database::getConnection();
+        } catch (PDOException $e) {
+            error_log("Database connection error: " . $e->getMessage());
+            return false;
+        }
+
+        $createdDate = date('Y-m-d');
+        $isActive = 1; // Default to active
+
+        $sql = "INSERT INTO UserAccount (username, email, password, isActive, CreatedDate) VALUES (:username, :email, :password, :isActive, :createdDate)";
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':isActive', $isActive, PDO::PARAM_INT);
+        $stmt->bindParam(':createdDate', $createdDate);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Authenticates the user with the provided username and password.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $password The password provided by the user.
+     * @return bool True if authentication is successful, otherwise false.
+     */
+    public static function authenticateUser(string $username, string $password): bool
+    {
+        try {
+            $connection = Database::getConnection();
+        } catch (PDOException $e) {
+            error_log("Database connection error: " . $e->getMessage());
+            return false;
+        }
+
+        $sql = "SELECT * FROM UserAccount WHERE username = :username AND isActive = 1";
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Retrieves the user ID.
      *
      * @return int The user ID.

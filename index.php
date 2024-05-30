@@ -13,6 +13,7 @@ require_once('vendor/autoload.php');
 session_start([
     'cookie_lifetime' => 86400, //expires in a day
 ]);
+
 // in production scenario be sure to log errors instead of display
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -56,18 +57,26 @@ $f3->route('POST /access-code', function() use($con) {
     $con->verifyAccessCode($accessCode);
 });
 
-// Route to handle login form submission
-$f3->route('POST /login', function () use ($con)
-{
+$f3->route('GET /login', function() use ($con) {
+    $con->renderLogin();
+});
+
+$f3->route('POST /login', function() use ($con) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $con->processLogin($username, $password);
 });
 
-// Route to "login.html" view
-$f3->route('GET /login', function () use ($con)
-{
-    $con->renderLogin();
+$f3->route('GET /register', function() use ($con) {
+    $con->renderRegister();
+});
+
+$f3->route('POST /register', function() use ($con) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirm_password'];
+    $con->processRegister($username, $email, $password, $confirmPassword);
 });
 
 // Route to "timeline.html" view
@@ -102,6 +111,10 @@ $f3->route('GET /get-items', function() {
 $f3->route('GET /task', function () use ($con)
 {
     $con->renderTask();
+});
+
+$f3->route('GET /logout', function() use ($con) {
+    $con->logout();
 });
 
 // Run the Fat-Free instance

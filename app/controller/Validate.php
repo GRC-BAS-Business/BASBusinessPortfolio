@@ -68,5 +68,63 @@ class Validate
         return false;
     }
 
+    /**
+     * Validates login credentials.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $password The password provided by the user.
+     * @return bool True if the input is valid, otherwise false.
+     */
+    public static function isValidLogin(string $username, string $password): bool
+    {
+        if (empty($username) || empty($password)) {
+            return false;
+        }
+
+        if (strlen($password) < 8) {
+            return false;
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates registration input.
+     *
+     * @param string $username The username provided by the user.
+     * @param string $email The email provided by the user.
+     * @param string $password The password provided by the user.
+     * @param string $confirmPassword The password confirmation provided by the user.
+     * @return bool True if the input is valid, otherwise false.
+     */
+    public static function isValidRegistration(string $username, string $email, string $password, string $confirmPassword): bool
+    {
+        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+            return false;
+        }
+
+        if (!self::isValidEmail($email)) {
+            return false;
+        }
+
+        if ($password !== $confirmPassword) {
+            return false;
+        }
+
+        if (strlen($password) < 8) {
+            return false;
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username)) {
+            return false;
+        }
+
+        return true;
+    }
+
     //...more validation/sanitization methods as needed
 }
