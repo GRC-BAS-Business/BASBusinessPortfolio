@@ -23,11 +23,11 @@ This is the request access view page
             <form id="request-access-form" action="request-access" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
                 </div>
                 <div class="mb-3">
                     <label for="message" class="form-label">Message</label>
-                    <textarea type="text" class="form-control" id="message" name="message" required></textarea>
+                    <textarea class="form-control" id="message" name="message" required></textarea>
                     <div id="messageHelp" class="form-text">Please enter a message.</div>
                 </div>
                 <div class="d-grid gap-2">
@@ -36,13 +36,12 @@ This is the request access view page
                 <div>
                     <a href="access-code">Have an access code?</a>
                 </div>
-                <!-- Failed Access Request Error -->
+                <!-- Error and Success Messages -->
                 <div id="error-message" class="alert alert-danger" role="alert" {{ isset(@SESSION.error) ? '' : 'style="display: none;"' }}>
                     {{ isset(@SESSION.error) ? @SESSION.error : '' }}
                 </div>
-                <!-- Success Message -->
                 <div id="success-message" class="alert alert-success" role="alert" {{ isset(@SESSION.success) ? '' : 'style="display: none;"' }}>
-                    {{ isset(@SESSION.success) ? @SESSION.success : '' }}
+                {{ isset(@SESSION.success) ? @SESSION.success : '' }}
                 </div>
             </form>
         </div>

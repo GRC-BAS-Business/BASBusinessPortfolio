@@ -7,7 +7,8 @@
  *  @copyright 2024
  *  @url https://bas-business-portfolio.greenriverdev.com
  **/
-abstract class UserAccount {
+abstract class UserAccount
+{
     private int $_userID;
     private string $_username;
     private string $_password;
@@ -33,18 +34,20 @@ abstract class UserAccount {
     }
 
     /**
-     * Creates a new user in the database.
+     * Creates a new user account in the database.
      *
-     * @param string $username The username provided by the user.
-     * @param string $email The email provided by the user.
-     * @param string $hashedPassword The hashed password provided by the user.
-     * @return bool True if the user is successfully created, otherwise false.
+     * @param string $username The username of the new user.
+     * @param string $email The email address of the new user.
+     * @param string $hashedPassword The hashed password of the new user.
+     * @return bool True if the user account was created successfully, false otherwise.
      */
     public static function createUser(string $username, string $email, string $hashedPassword): bool
     {
-        try {
+        try
+        {
             $connection = Database::getConnection();
-        } catch (PDOException $e) {
+        } catch (PDOException $e)
+        {
             error_log("Database connection error: " . $e->getMessage());
             return false;
         }
@@ -64,17 +67,20 @@ abstract class UserAccount {
     }
 
     /**
-     * Authenticates the user with the provided username and password.
+     * Authenticates a user by checking if the provided username and password are valid.
      *
-     * @param string $username The username provided by the user.
-     * @param string $password The password provided by the user.
-     * @return bool True if authentication is successful, otherwise false.
+     * @param string $username The username of the user.
+     * @param string $password The password of the user.
+     *
+     * @return bool True if the user is authenticated, false otherwise.
      */
     public static function authenticateUser(string $username, string $password): bool
     {
-        try {
+        try
+        {
             $connection = Database::getConnection();
-        } catch (PDOException $e) {
+        } catch (PDOException $e)
+        {
             error_log("Database connection error: " . $e->getMessage());
             return false;
         }
@@ -85,10 +91,35 @@ abstract class UserAccount {
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['password']))
+        {
             return true;
-        } else {
+        } else
+        {
             return false;
+        }
+    }
+
+    /**
+     * Retrieves the email associated with the given username from the database.
+     *
+     * @param string $username The username to retrieve the email for.
+     * @return string The email associated with the given username.
+     */
+    public static function getEmailByUsername(string $username): string
+    {
+        $sql = "SELECT email FROM UserAccount WHERE username = :username";
+        $stmt = Database::getConnection()->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result)
+        {
+            return $result['email'];
+        } else
+        {
+            return '';
         }
     }
 

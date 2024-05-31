@@ -89,10 +89,18 @@ CREATE TABLE `Student` (
 CREATE TABLE `UserAccount` (
   `Username` varchar(255) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
-  `CreatedDate` date DEFAULT NULL,
+  `createdDate` date DEFAULT NULL,
   `IsActive` tinyint(1) DEFAULT NULL,
   `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+ALTER TABLE `UserAccount`
+    MODIFY COLUMN `userID` int(11) NOT NULL AUTO_INCREMENT,
+    MODIFY COLUMN `username` varchar(50) NOT NULL,
+    MODIFY COLUMN `email` varchar(50) NOT NULL,
+    MODIFY COLUMN `password` varchar(255) NOT NULL,
+    MODIFY COLUMN `isActive` tinyint DEFAULT '1',
+    MODIFY COLUMN `createdDate` date NOT NULL;
 
 --
 -- Indexes for dumped tables

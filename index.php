@@ -29,12 +29,16 @@ $f3->route('GET /', function () use ($con)
     $con->renderHome();
 });
 
-$f3->route('POST /request-access', function($f3) use($con, $ajax) {
+// Route to handle "request_access.html" submission
+$f3->route('POST /request-access', function($f3) use($con, $ajax)
+{
     $email = $_POST['email'];
     $message = $_POST['message'];
-    if ($f3->get('AJAX')) {
+    if ($f3->get('AJAX'))
+    {
         $con->processAccessRequest($email, $message);
-    } else {
+    } else
+    {
         $ajax->processAccessRequestWithRedirect($email, $message);
     }
 });
@@ -51,27 +55,42 @@ $f3->route('GET /access-code', function () use ($con)
     $con->renderAccessCode();
 });
 
-// Submit Access Code
-$f3->route('POST /access-code', function() use($con) {
+// Route to handle access code submission
+$f3->route('POST /access-code', function() use ($con)
+{
     $accessCode = $_POST['accessCode'];
     $con->verifyAccessCode($accessCode);
 });
 
-$f3->route('GET /login', function() use ($con) {
+// Route to handle access request verification
+$f3->route('GET /verify-access-request', function() use ($con)
+{
+    $con->verifyAccessRequest();
+});
+
+// Route to "login.html" view
+$f3->route('GET /login', function() use ($con)
+{
     $con->renderLogin();
 });
 
-$f3->route('POST /login', function() use ($con) {
+// Route to process login submission
+$f3->route('POST /login', function() use ($con)
+{
     $username = $_POST['username'];
     $password = $_POST['password'];
     $con->processLogin($username, $password);
 });
 
-$f3->route('GET /register', function() use ($con) {
+// Route to "register.html" view
+$f3->route('GET /register', function() use ($con)
+{
     $con->renderRegister();
 });
 
-$f3->route('POST /register', function() use ($con) {
+// Route to process register submission
+$f3->route('POST /register', function() use ($con)
+{
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -97,7 +116,9 @@ $f3->route('GET /item', function () use ($con)
     $con->renderItem();
 });
 
-$f3->route('GET /get-items', function() {
+// Route to fetch all items to json
+$f3->route('GET /get-items', function()
+{
     header('Content-Type: application/json');
 
     // Call the function that fetches all items
@@ -113,7 +134,8 @@ $f3->route('GET /task', function () use ($con)
     $con->renderTask();
 });
 
-$f3->route('GET /logout', function() use ($con) {
+$f3->route('GET /logout', function() use ($con)
+{
     $con->logout();
 });
 

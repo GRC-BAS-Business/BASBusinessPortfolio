@@ -1,7 +1,6 @@
 <?php
-
 /**
- *  This is the Student class
+ *  This is the Access class
  *
  *  @authors Braedon Billingsley, Will Castillo, Mehak Saini, Noah Lanctot
  *  @copyright 2024
@@ -9,93 +8,90 @@
  **/
 class Access
 {
-    const DUPLICATE_EMAIL = 8;
-
-    public static function checkAccessCode($accessCode): bool
+    /**
+     * Check if the given access code exists in the AccessCodes table.
+     *
+     * @param string $accessCode The access code to check.
+     *
+     * @return bool Returns true if the access code exists, false otherwise.
+     */
+    public static function checkAccessCodeForEmail(string $accessCode): bool
     {
-        try {
-            // Query for checking the access code can vary based on how you store it in your database.
-            $sql = "SELECT * FROM `AccessCodes` WHERE `AccessCode` = :accessCode";
-            $stmt = Database::getConnection()->prepare($sql);
-
-            if ($stmt === false) {
-                var_dump(Database::getConnection()->errorInfo());
-                return false;
-            }
-
-            $stmt->bindParam(':accessCode', $accessCode);
-            $stmt->execute();
-
-            if ($stmt->fetch(PDO::FETCH_ASSOC)) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (PDOException $e) {
-            echo 'PDOException: ' . $e->getMessage();
-            return false;
-        }
-
-        return false;
-    }
-
-    public static function generateAccessCode(): string
-    {
-        return bin2hex(random_bytes(4));
+        $sql = "SELECT * FROM `AccessCodes` WHERE `AccessCode` = :accessCode";
+        $stmt = Database::getConnection()->prepare($sql);
+        $stmt->bindParam(':accessCode', $accessCode);
+        $stmt->execute();
+        return (bool)$stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Generates a random access code and sends it via email to a student.
+     * Checks if a student has access based on their email address.
      *
-     * @param string $email The email address of the student.
-     * @return int Returns one of the following:
-     *   - Validate::REQUEST_SUCCESS if the access code was created and sent successfully.
-     *   - self::DUPLICATE_EMAIL if the email already exists in the database.
+     * @param string $email The email address of the student
+     *
+     * @return bool Returns true if the student has access, false otherwise.
      */
-    public static function createAccessCodeAndMailToStudent(string $email): int
+    public static function checkAccess(string $email): bool
     {
-        // Generate a random access code
-        $accessCode = self::generateAccessCode();
-
-        // Check if the email already exists in the database
-        // Check if the email already exists in the database
         $sql = "SELECT * FROM `AccessCodes` WHERE `Email` = :email";
         $stmt = Database::getConnection()->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false;
+    }
 
-        if (Validate::isDuplicateEmail($email)) {
-            return Validate::DUPLICATE_EMAIL;
-        } else {
-        // Email doesn't exist. Save this new access code in the database associated with the specific email.
-        try {
-            self::saveAccessCodeToDatabase($email, $accessCode);
-        } catch (RuntimeException $e) {
-            error_log($e->getMessage());
-            throw new RuntimeException('Failed to save access code to database.');
+
+    /**
+     * Generates a random access code.
+     *
+     * This method generates a random access code by calling the `random_bytes` function
+     * to get 4 random bytes and then converts the bytes to hexadecimal using the `bin2hex` function.
+     *
+     * @return string The generated access code.
+     */
+    public static function generateAccessCode(): string
+    {
+        try
+        {
+            return bin2hex(random_bytes(4));
+        } catch (Exception $e) {
+            return $e->getMessage() . 'Random Exception';
         }
     }
 
-        // The subject of the email
+    /**
+     * Generates an access code, saves it to the database, and mails it to the student.
+     *
+     * @param string $email The email address of the student
+     *
+     * @return int Returns a constant representing the result of the operation:
+     *             - Validate::DUPLICATE_EMAIL if the email address is already in the database
+     *             - Validate::REQUEST_SUCCESS if the access code is created and mailed successfully
+     */
+    public static function createAccessCodeAndMailToStudent(string $email): int
+    {
+        if (Validate::isDuplicateEmail($email))
+        {
+            return Validate::DUPLICATE_EMAIL;
+        }
+
+        $accessCode = self::generateAccessCode();
+        self::saveAccessCodeToDatabase($email, $accessCode);
+
         $subject = 'Your Access Code for BAS Business Portfolio';
-
-        // The body of the email
         $message = "Hello, your access code for BAS Business Portfolio is: $accessCode";
+        $headers = 'From: no-reply@greenriverdev.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
-        // Mail headers
-        $headers = 'From: billingsley.braedon@student.greenriver.edu' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-
-        // Send the email to the student
         mail($email, $subject, $message, $headers);
         return Validate::REQUEST_SUCCESS;
     }
 
     /**
-     * Saves the access code to the database associated with the student's email address.
+     * Saves an access code to the database.
      *
      * @param string $email The email address of the student.
-     * @param string $accessCode The access code generated for the student.
+     * @param string $accessCode The access code to save.
      *
      * @return void
      */
@@ -103,17 +99,8 @@ class Access
     {
         $sql = "INSERT INTO `AccessCodes` (`Email`, `AccessCode`) VALUES (:email, :accessCode)";
         $stmt = Database::getConnection()->prepare($sql);
-
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':accessCode', $accessCode);
-
-        $isInserted = $stmt->execute();
-
-        // Check if the execution was successful
-        if ($isInserted){
-            echo "Access code has been saved successfully.";
-        }else{
-            echo "Database error: ";  // It is generally the error message
-        }
+        $stmt->execute();
     }
 }

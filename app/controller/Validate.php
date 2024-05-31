@@ -60,11 +60,10 @@ class Validate
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
-        if ($stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Email already exist in the database. Return error code.
+        if ($stmt->fetch(PDO::FETCH_ASSOC))
+        {
             return self::DUPLICATE_EMAIL;
         }
-        // Email doesn't exist. Save this new access code in the database associated with the specific email.
         return false;
     }
 
@@ -77,15 +76,18 @@ class Validate
      */
     public static function isValidLogin(string $username, string $password): bool
     {
-        if (empty($username) || empty($password)) {
+        if (empty($username) || empty($password))
+        {
             return false;
         }
 
-        if (strlen($password) < 8) {
+        if (strlen($password) < 8)
+        {
             return false;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username)) {
+        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username))
+        {
             return false;
         }
 
@@ -93,33 +95,39 @@ class Validate
     }
 
     /**
-     * Validates registration input.
+     * Checks if the given registration details are valid.
      *
-     * @param string $username The username provided by the user.
-     * @param string $email The email provided by the user.
-     * @param string $password The password provided by the user.
-     * @param string $confirmPassword The password confirmation provided by the user.
-     * @return bool True if the input is valid, otherwise false.
+     * @param string $username The username to be validated.
+     * @param string $email The email address to be validated.
+     * @param string $password The password to be validated.
+     * @param string $confirmPassword The confirmed password to be validated.
+     *
+     * @return bool Returns true if the registration details are valid, false otherwise.
      */
     public static function isValidRegistration(string $username, string $email, string $password, string $confirmPassword): bool
     {
-        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword))
+        {
             return false;
         }
 
-        if (!self::isValidEmail($email)) {
+        if (!self::isValidEmail($email))
+        {
             return false;
         }
 
-        if ($password !== $confirmPassword) {
+        if ($password !== $confirmPassword)
+        {
             return false;
         }
 
-        if (strlen($password) < 8) {
+        if (strlen($password) < 8)
+        {
             return false;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username)) {
+        if (!preg_match('/^[a-zA-Z0-9._]+$/', $username))
+        {
             return false;
         }
 
