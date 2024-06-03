@@ -151,3 +151,28 @@ header {
     color:#111111;
     margin-top: 15px;
 }
+
+
+/*register-page*/
+.card-register{
+    background-color: #ffffff;
+    padding:35px;
+    border-radius:30px;
+    width:507px;
+    margin:54px;
+
+    .btn-register{
+        text-align: center;
+        color: #ffffff;
+        background-color: #171d3a;
+
+    }
+
+    .btn-register:hover {
+        background-color: #94ABF9;
+    }
+}
+.card-title, .form-label {
+    font-weight:bold;
+
+}
