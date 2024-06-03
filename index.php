@@ -1,6 +1,6 @@
 <?php
 /**
- *   index.php F3 router for the BAS Business Portfolio Fat-Free Framework Routes
+ *   index.php F3 router for the BAS Business Portfolio
  *
  *  @authors Noah Lanctot, Mehak Saini, Braedon Billingsley, Will Castillo
  *  @copyright 2024
@@ -14,7 +14,7 @@ session_start([
     'cookie_lifetime' => 86400, //expires in a day
 ]);
 
-// in production scenario be sure to log errors instead of display
+// In production scenario be sure to log errors instead of display
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -117,15 +117,25 @@ $f3->route('GET /item', function () use ($con)
 });
 
 // Route to fetch all items to json
-$f3->route('GET /get-items', function()
-{
-    header('Content-Type: application/json');
+$f3->route('GET /get-items', function($f3) {
+    // Retrieve all items
+    $items = Item::getItems();
+    error_log(print_r($items, true));
 
-    // Call the function that fetches all items
-    $itemTypes = Item::getItems();
+    // Convert the items to an associative array
+    $itemsArray = array_map(function($item) {
+        return [
+            'creationDate' => $item->getCreationDate()->format('Y-m-d H:i:s'),
+            'itemDescription' => $item->getItemDescription(),
+            'itemType' => $item->getItemType(),
+            'title' => $item->getTitle(),
+            // add more fields as needed
+        ];
+    }, $items);
 
-    // Return the result as a JSON string
-    echo json_encode($itemTypes);
+    // Set data to the f3 hive
+    $f3->set('items', $itemsArray);
+    echo json_encode($f3->get('items'));
 });
 
 // Route to "task.html" view
@@ -134,6 +144,7 @@ $f3->route('GET /task', function () use ($con)
     $con->renderTask();
 });
 
+// Route to handle user logout and session clearing
 $f3->route('GET /logout', function() use ($con)
 {
     $con->logout();

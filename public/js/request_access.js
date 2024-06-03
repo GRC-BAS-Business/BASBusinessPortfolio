@@ -1,3 +1,10 @@
+/**
+ *  public/js/request_access.js
+ *
+ *  @authors Braedon Billingsley, Will Castillo, Noah Lanctot, Mehak Saini
+ *  @copyright 2024
+ *  @url https://bas-business-portfolio.greenriverdev.com
+ **/
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById('request-access-form');
 
@@ -26,6 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.send(formData);
     });
 
+    /**
+     * Handles the response from an API request.
+     *
+     * @param {Object} response - The response object from the API request.
+     * @property {string} response.error - The error message.
+     * @property {string} response.success - The success message.
+     * @return {void}
+     */
     function handleResponse(response) {
         const errorMessage = document.getElementById('error-message');
         const successMessage = document.getElementById('success-message');

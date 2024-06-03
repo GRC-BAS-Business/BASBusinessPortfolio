@@ -1,28 +1,39 @@
+/**
+ *  public/js/item.js
+ *
+ *  @authors Braedon Billingsley, Will Castillo, Noah Lanctot, Mehak Saini
+ *  @copyright 2024
+ *  @url https://bas-business-portfolio.greenriverdev.com
+ **/
 document.addEventListener("DOMContentLoaded", function() {
-    const selectItemTypeInput = document.querySelector("#itemType");
+    window.onload = function () {
+        fetch('get-items')
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
 
-    fetch('/get-items')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP error " + response.status);
-            }
-            return response.json();
-        })
-        .then(items => {
-            items.forEach((item) => {
-                const option = document.createElement('option');
-                option.value = item.itemType;  // Use Item's `getItemType` method
-                option.text = item.itemType;   // You might want to display something different here
-                selectItemTypeInput.add(option);
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Failed to fetch item types. Please reload the page.");
-        });
-});
+                const itemsContainer = document.querySelector('#items');
 
-// JavaScript to handle form submission
-document.getElementById("submit-button").addEventListener("click", function() {
-    document.getElementById("item-form").submit();
+                for (let item of data) {
+                    const element = document.createElement('div');
+
+                    const titleElement = document.createElement('h2');
+                    titleElement.textContent = item.title;
+
+                    const descriptionElement = document.createElement('p');
+                    descriptionElement.textContent = item.itemDescription;
+
+                    const typeElement = document.createElement('p');
+                    typeElement.textContent = item.itemType;
+
+                    element.appendChild(titleElement);
+                    element.appendChild(descriptionElement);
+                    element.appendChild(typeElement);
+
+                    itemsContainer.appendChild(element);
+                }
+            })
+            .catch(error => console.error(error));
+    };
 });

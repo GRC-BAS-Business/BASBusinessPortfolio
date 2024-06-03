@@ -13,9 +13,14 @@ class Controller
     private PDO $_database;
 
     /**
-     * Constructs a controller object.
+     * Class Constructor.
      *
-     * @param mixed $f3 The global $f3 hive to be assigned to the $_f3 parameter.
+     * This constructor is responsible for initializing the class's properties by assigning the provided
+     * $f3 object to the $_f3 property and establishing a connection to the database by setting the $_database
+     * property to the returned value from the Database::getConnection() method.
+     *
+     * @param object $f3 The F3 object representing the entire Fat-Free Framework instance.
+     *
      * @return void
      */
     public function __construct(object $f3)
@@ -25,7 +30,11 @@ class Controller
     }
 
     /**
-     * Checks if the user is logged in, otherwise reroutes to the login page.
+     * Checks if the user is logged in.
+     *
+     * This method is responsible for checking if the user is logged in by performing the following steps:
+     * - Retrieves the 'loggedin' session variable using the F3 object.
+     * - If the 'loggedin' session variable is false or not set, it reroutes the user to the '/login' page.
      *
      * @return void
      */
@@ -38,7 +47,13 @@ class Controller
     }
 
     /**
-     * Renders the home.html view.
+     * Renders the home view.
+     *
+     * This method is responsible for rendering the home view by performing the following steps:
+     * - Checks if the user is logged in.
+     * - Clears any session messages.
+     * - Instantiates a new Template object.
+     * - Renders the 'app/view/home.html' template using the Template object and outputs the result.
      *
      * @return void
      */
@@ -51,7 +66,12 @@ class Controller
     }
 
     /**
-     * Renders the request_access.html view.
+     * Renders the request access view.
+     *
+     * This method is responsible for rendering the request access view by performing the following steps:
+     * - Clears any session messages.
+     * - Instantiates a new Template object.
+     * - Renders the 'app/view/request_access.html' template using the Template object and outputs the result.
      *
      * @return void
      */
@@ -68,7 +88,7 @@ class Controller
      * This method validates the given email address and performs the necessary actions
      * depending on the validation results. If the email address is not valid, it sets
      * an error message in the session and renders the request access*/
-    public function processAccessRequest(string $email, string $message): void
+    public function processAccessRequest(string $email, string $userMessage): void
     {
         if (!Validate::isValidEmail($email))
         {
@@ -84,13 +104,18 @@ class Controller
             return;
         }
 
+        // In production or dev - change this to the correct domain
         $rootUrl = "https://braedonbillingsley.greenriverdev.com/BASBusinessPortfolio";
+
         // Send verification email to admin
         $verificationLink = $rootUrl . '/verify-access-request?email=' . urlencode($email);
         $subject = 'Access Request Verification';
-        $message = "A new access request has been made. To verify, click the following link: $verificationLink";
+        $message = "A new access request has been made. " . "Please review the users message: '" . $userMessage . "'" .
+        "\n" . "To verify, click the following link: $verificationLink";
+        // Change From: to no-reply@yourdomain.com
         $headers = 'From: no-reply@greenriverdev.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
+        // Change TO: to your admin or dev email address
         if (mail('billingsley.braedon@student.greenriver.edu', $subject, $message, $headers))
         {
             $this->_f3->set('SESSION.success', 'Verification email sent to admin');
@@ -188,7 +213,7 @@ class Controller
      * @param int $result The error code to interpret.
      * @return string The error message corresponding to the error code.
      */
-    function interpretError($result): string
+    function interpretError(int $result): string
     {
         return match ($result)
         {
@@ -217,15 +242,22 @@ class Controller
     }
 
     /**
-     * Processes user login.
+     * Processes the login attempt.
      *
-     * This method sanitizes the username and password, checks for a valid login,
-     * and performs the necessary actions based on the login result. If login is
-     * successful, the user is redirected to the timeline page. If login fails, an
-     * error message is set and the user is redirected to the login page.
+     * This method is responsible for processing the login attempt by performing the following steps:
+     * - Sanitizes the username and password inputs using the Validate::sanitizeString method.
+     * - Validates the login credentials using the Validate::isValidLogin method.
+     * - Retrieves the user's email address from the UserAccount::getEmailByUsername method.
+     * - Checks if access code verification is required using the Access::checkAccess method.
+     * - Sets the 'SESSION.error' message to 'Access code verification required' and redirects to '/access-code' if access code verification is required.
+     * - Authenticates the user using the UserAccount::authenticateUser method and sets session variables if authentication is successful.
+     * - Redirects to '/timeline' if authentication is successful.
+     * - Sets the 'SESSION.error' message to 'Invalid username or password' and redirects to '/login' if authentication fails.
+     * - Sets the 'SESSION.error' message to 'Invalid input' and redirects to '/login' if the login credentials are invalid.
      *
      * @param string $username The username provided by the user.
      * @param string $password The password provided by the user.
+     *
      * @return void
      */
     function processLogin(string $username, string $password): void
@@ -275,17 +307,28 @@ class Controller
     }
 
     /**
-     * Processes user registration.
+     * Processes the registration of a new user.
      *
-     * This method takes in the username, email, password, and confirmPassword, sanitizes the input,
-     * validates the registration details, and creates a new user account if the registration is valid.
-     * If registration is successful, the user is redirected to the login page with a success message.
-     * If registration fails, an error message is displayed and the user is redirected back to the registration page.
+     * This method is responsible for processing the registration of a new user by performing the following steps:
+     * - Sanitizes the input values for username, email, password, and confirmPassword using the Validate::sanitizeString() method.
+     * - Validates the input values using the Validate::isValidRegistration() method.
+     *   - If the input values are invalid, sets the session error message and reroutes to the registration page.
+     * - Checks if the user has access granted or if access code verification is required using the SESSION access_granted flag and
+     *   the Access::checkAccess() method.
+     *   - If access is not granted or access code verification is required, sets the session email and error messages and reroutes
+     *     to the access code page.
+     * - Hashes the password using the password_hash() function with PASSWORD_DEFAULT algorithm.
+     * - Creates a new user using the UserAccount::createUser() method with the username, email, and hashed password.
+     *   - If the user is created successfully, clears the SESSION access_granted flag, sets the session success message, and reroutes
+     *     to the login page.
+     *   - If there is a registration error due to the username or email already being registered, sets the session error message and
+     *     reroutes to the registration page.
      *
-     * @param string $username The username for the user.
-     * @param string $email The email for the user.
-     * @param string $password The password for the user.
-     * @param string $confirmPassword The confirmation password for the user.
+     * @param string $username The username for the new user.
+     * @param string $email The email address for the new user.
+     * @param string $password The password for the new user.
+     * @param string $confirmPassword The confirmation password for the new user.
+     *
      * @return void
      */
     public function processRegister(string $username, string $email, string $password, string $confirmPassword): void
@@ -320,7 +363,7 @@ class Controller
             $this->_f3->reroute('/login');
         } else
         {
-            $this->_f3->set('SESSION.error', 'Registration error. Please try again.');
+            $this->_f3->set('SESSION.error', 'Registration error. This username / email is already registered. Please try again.');
             $this->_f3->reroute('/register');
         }
     }
@@ -328,8 +371,11 @@ class Controller
     /**
      * Renders the timeline view.
      *
-     * This method checks for user login status, clears any session messages, and
-     * renders the timeline view using the template 'app/view/timeline.html'.
+     * This method is responsible for rendering the timeline view by performing the following steps:
+     * - Checks if the user is logged in.
+     * - Clears any session messages.
+     * - Instantiates a new Template object.
+     * - Renders the 'app/view/timeline.html' template using the Template object and outputs the result.
      *
      * @return void
      */
@@ -345,10 +391,10 @@ class Controller
      * Renders the item view.
      *
      * This method is responsible for rendering the item view by performing the following steps:
-     * 1. Checks if the user is logged in.
-     * 2. Clears any session messages.
-     * 3. Creates a new instance of the Template class.
-     * 4. Calls the render method of the Template class with the path 'app/view/item.html'.
+     * - Checks if the user is logged in.
+     * - Clears any session messages.
+     * - Instantiates a new Template object.
+     * - Renders the 'app/view/item.html' template using the Template object and outputs the result.
      *
      * @return void
      */
@@ -363,40 +409,58 @@ class Controller
     /**
      * Processes an item.
      *
-     * This method checks for user login status, creates a new DateTime object to represent the creation date,
-     * retrieves the item description, title, type and image from the $_POST array,
-     * creates a new Item object with the retrieved values,
-     * and saves the item by calling the saveItem() method on the Item object.
+     * This method is responsible for processing an item by performing the following steps:
+     * - Checks if the user is logged in.
+     * - Retrieves the item description, title, and type from the $_POST array.
+     * - Creates a new Item object using the retrieved data.
+     * - Saves the item using the saveItem() method of the Item object.
+     * - If an exception occurs during item creation or saving, an error is logged.
+     * - Renders the timeline view using the renderTimeline() method.
      *
      * @return void
      */
     public function processItem(): void
     {
         $this->checkLogin();
-        $createdDate = new DateTime();
         $itemDescription = $_POST['itemDescription'];
         $title = $_POST['title'];
         $itemType = $_POST['itemType'];
-        $itemImage = $_POST['itemImage'];
 
-        $item = new Item($createdDate, $itemDescription, '', $itemType, $title);
-        $item->saveItem();
-        // TODO
+        try {
+            $item = new Item($itemDescription, $itemType, $title);
+            $item->saveItem();
+        } catch (Exception $e) {
+            error_log("Error creating item" . $e);
+        }
+
+        $this->renderTimeline();
     }
 
 
+    /**
+     * Creates a timeline object in the Student account.
+     *
+     * This method is responsible for creating a timeline object in the Student account upon account creation.
+     *
+     * @return void
+     */
     public function createTimeline(): void {
         // TODO Create 1 timeline object in Student account upon account creation.
     }
 
     /**
-     * Renders the task view, clearing any session messages and
-     * displaying the task.html template.
+     * Renders the task view.
+     *
+     * This method is responsible for rendering the task view by performing the following steps:
+     * - Clears any session messages.
+     * - Instantiates a new Template object.
+     * - Renders the 'app/view/task.html' template using the Template object and outputs the result.
      *
      * @return void
      */
     function renderTask(): void
     {
+        $this->checkLogin();
         $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/task.html');

@@ -1,3 +1,9 @@
+<!-- app/view/item.html
+
+BAS Business Portfolio
+Braedon Billingsley, Mehak Saini, Will Castillo, Noah Lanctot
+This is the create item view page.
+-->
 
 <!-- Head -->
 <include href="app/view/components/head.html"></include>
@@ -7,7 +13,7 @@
 <!-- Header -->
 <include href="app/view/components/header.html"></include>
 
-<!--Create portfolio item form-->
+<!--Create item container-->
 <div class="container">
 
     <!--Title and Description-->
@@ -16,31 +22,35 @@
         <p>Please complete the following, then submit to your item to timeline.</p>
     </div>
 
+    <!--Create item form-->
     <form id="item-form" action="item" method="post">
+
+        <!--Item name-->
         <div>
             <label for="title">Item Name:</label><br>
             <input type="text" id="title" name="title">
         </div>
 
+        <!--Item description-->
         <div>
             <label for="itemDescription">Description:</label><br>
-            <textarea id="itemDescription" name="item-description"></textarea>
+            <textarea id="itemDescription" name="itemDescription"></textarea>
         </div>
+
+        <!--Item type dropdown selector-->
         <div>
             <label>Type:
-                <select type="drop" id="item-type">
+                <select type="drop" id="itemType" name="itemType">
                     <option>Resume</option>
                     <option>Work Experience</option>
                     <option>Certification</option>
                 </select>
             </label>
         </div>
-        <div>
-            <label for="itemImage">Image:</label><br>
-            <input type="file" id="itemImage" name="item-image">
-        </div>
+
+        <!--Create item submit button-->
         <div class="mt-4">
-            <button class="push" type="button" id="submit-button">
+            <button class="push" type="submit" id="submit-button">
                 <span class="front">Create Item</span>
             </button>
         </div>
