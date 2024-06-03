@@ -52,8 +52,18 @@ abstract class UserAccount
             return false;
         }
 
+        $sqlCheck = "SELECT * FROM UserAccount WHERE username = :username OR email = :email";
+        $stmtCheck = $connection->prepare($sqlCheck);
+        $stmtCheck->bindParam(':username', $username);
+        $stmtCheck->bindParam(':email', $email);
+        $stmtCheck->execute();
+
+        if($stmtCheck->fetch(PDO::FETCH_ASSOC)){
+            return false;
+        }
+
         $createdDate = date('Y-m-d');
-        $isActive = 1; // Default to active
+        $isActive = 1;
 
         $sql = "INSERT INTO UserAccount (username, email, password, isActive, CreatedDate) VALUES (:username, :email, :password, :isActive, :createdDate)";
         $stmt = $connection->prepare($sql);

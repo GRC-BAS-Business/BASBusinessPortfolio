@@ -17,18 +17,14 @@ class Item
     /**
      * Constructs an Item object
      *
-     * @param DateTime $_creationDate The creation date of the item.
      * @param string $_itemDescription The description of the item.
-     * @param int $_itemID The ID of the item.
      * @param string $_itemType The type of the item.
      * @param string $_title The title of the item.
-     * @return void
      */
-    public function __construct(DateTime $_creationDate, string $_itemDescription, int $_itemID, string $_itemType, string $_title)
+    public function __construct(string $_itemDescription, string $_itemType, string $_title)
     {
-        $this->_creationDate = $_creationDate;
+        $this->_creationDate = new DateTime();
         $this->_itemDescription = $_itemDescription;
-        $this->_itemID = $_itemID;
         $this->_itemType = $_itemType;
         $this->_title = $_title;
     }
@@ -140,17 +136,21 @@ class Item
         $this->_title = $title;
     }
 
+    /**
+     * Retrieves all items from the portfolio.
+     *
+     * @return array An array of Item objects representing all the items in the portfolio.
+     */
     public static function getItems(): array
     {
         // Get the database connection
         $dbh = Database::getConnection();
 
         // Prepare the SQL statement
-        $sql = "SELECT * FROM PortfolioItem";
+        $sql = "SELECT creationDate, itemDescription, itemType, title FROM PortfolioItem";
 
         // Execute the statement
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
+        $stmt = $dbh->query($sql);
 
         // Fetch all results
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -158,15 +158,19 @@ class Item
         // Create an array to hold the Item objects
         $items = [];
 
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
+
             // Create a new Item object for each row
-            $item = new Item(
-                new DateTime($row['creationDate']),
-                $row['itemDescription'],
-                $row['itemID'],
-                $row['itemType'],
-                $row['title']
-            );
+            try {
+                $item = new Item(
+                // Pass the DateTime object
+                    $row['itemDescription'],
+                    $row['itemType'],
+                    $row['title']
+                );
+            } catch (Exception $e) {
+                error_log("Error creating item" . $e);
+            }
 
             // Add the Item object to the items array
             $items[] = $item;
@@ -175,23 +179,28 @@ class Item
         return $items;
     }
 
+    /**
+     * Saves the item in the database.
+     *
+     * @return bool Returns true if the item was successfully saved, false otherwise.
+     */
     public function saveItem(): bool
     {
         // Get the database connection
         $dbh = Database::getConnection();
 
-        $sql = "INSERT INTO `PortfolioItem` ( `ItemID`, `Title`, `CreationDate`, 
-            `ItemType`, `ItemDescription`) VALUES (:itemID, :itemTitle, :creationDate, :itemType, :itemDescription)";
+        $sql = "INSERT INTO `PortfolioItem` (`Title`, `CreationDate`, 
+        `ItemType`, `ItemDescription`) VALUES (:itemTitle, :creationDate, :itemType, :itemDescription)";
 
         // Prepare the statement
         $stmt = $dbh->prepare($sql);
 
         // Bind the parameters
-        $stmt->bindValue(':itemID', $this->_itemID);
         $stmt->bindValue(':itemTitle', $this->_title);
-        $stmt->bindValue(':creationDate', $this->_creationDate->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':creationDate', $this->_creationDate->format('Y-m-d'));
         $stmt->bindValue(':itemType', $this->_itemType);
         $stmt->bindValue(':itemDescription', $this->_itemDescription);
+
         // Execute the statement
         $stmt->execute();
 

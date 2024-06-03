@@ -15,23 +15,23 @@ This is the timeline view.
 <include href="app/view/components/header.html"></include>
 
 <!--Timeline Page-->
-<div class="container">
-
-    <!--Title and Description-->
-    <div class="home-title-description text-center">
-        <h1>Welcome "User" to your portfolio timeline!</h1>
-        <p>Please add portfolio items to populate your timeline.</p>
+<div class="container my-5">
+    <div class="row">
+        <!--Title and Description-->
+        <div class="col-12 text-center">
+            <h1>Welcome "User" to your portfolio timeline!</h1>
+            <p>Please add portfolio items to populate your timeline.</p>
+        </div>
     </div>
 
     <!--Main Content-->
     <div class="row">
-        <div class="add-item text-center">
+        <div class="col-12 text-center my-3">
             <a class="btn btn-warning" href="item">Add a portfolio item.</a>
+            <a class="btn btn-success" href="task">View tasks</a>
         </div>
-    </div>
-    <div class="row">
-        <div class="view-task text-center">
-            <a class="btn btn-warning" href="task">View tasks</a>
+        <div class="col-12 text-center my-3" id="items">
+            <!-- Items will be appended here -->
         </div>
     </div>
 </div>
