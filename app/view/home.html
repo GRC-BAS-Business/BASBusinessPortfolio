@@ -12,16 +12,26 @@ This is the home page view.
 <body class="bg-home">
 
 <!-- Header -->
-<include href="app/view/components/header.html"></include>
 
+<header class="header">
+    <!--Navbar-->
+    <nav class="nav-bar">
+        <!--Logo-->
+        <div class="logo">
+            <a class="navbar-brand" href="{{ @BASE }}">
+                <strong>BAS In Business Portfolio</strong>
+            </a>
+        </div>
+    </nav>
+</header>
 <!--Home Page-->
 <div class="container">
 
     <!--Title and Description-->
     <div class="home-title-description">
 
-        <h1 class="desc-color-home">Welcome to Your</h1>
-        <h1 class="desc-color-home">Professional Hub!</h1>
+        <h1 class="desc-color-home"><strong>Welcome to Your</strong></h1>
+        <h1 class="desc-color-home"><strong>Professional Hub!</strong></h1>
         <p class="remove-text-space">Come on in, the career waters are</p>
         <p class="remove-text-space">warm!</p>
     </div>
