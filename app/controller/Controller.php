@@ -60,7 +60,6 @@ class Controller
     function renderHome(): void
     {
         $this->checkLogin();
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/home.html');
     }
@@ -77,118 +76,113 @@ class Controller
      */
     function renderRequestAccess(): void
     {
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/request_access.html');
     }
 
     /**
-     * Processes an access request.
+     * Processes an access request and sends verification email to admin.
      *
-     * This method validates the given email address and performs the necessary actions
-     * depending on the validation results. If the email address is not valid, it sets
-     * an error message in the session and renders the request access*/
-    public function processAccessRequest(string $email, string $userMessage): void
+     * This method is responsible for processing an access request by performing the following steps:
+     * - Sanitizes the email and message fields submitted via POST.
+     * - Validates the email address.
+     * - Checks if the email address is already registered.
+     * - If email is valid and not already registered:
+     *   - Generates a verification link using the root URL and the encoded email.
+     *   - Constructs the email subject and message with the user's message and verification link.
+     *   - Sends the verification email using the mail() function with the admin address, subject, message, and headers.
+     *   - If email is sent successfully, sets the response status as 'success' and the message as 'Form submitted successfully'.
+     *
+     * @return void Outputs the JSON-encoded response as the method's output.
+     */
+    public function processAccessRequest(): void
     {
-        if (!Validate::isValidEmail($email))
-        {
-            $this->_f3->set('SESSION.error', 'Invalid email address');
-            $this->renderRequestAccess();
-            return;
+        $response = array();
+        $email = Validate::sanitizeString($_POST['email']);
+        $userMessage = Validate::sanitizeString($_POST['message']);
+
+        if (!Validate::isValidEmail($email)) {
+            $response['status'] = 'error';
+            $response['message'] = 'Please enter a valid email address.';
+        } else if (Validate::isDuplicateEmail($email)) {
+            $response['status'] = 'error';
+            $response['message'] = 'This email is already registered.';
+        } else {
+
+            // Send verification email to admin
+            $rootUrl = "https://braedonbillingsley.greenriverdev.com/BASBusinessPortfolio";
+            $verificationLink = $rootUrl . '/verify-access-request?email=' . urlencode($email);
+            $subject = 'Access Request Verification';
+            $message = "A new access request has been made. " . "Please review the user's message: '" . $userMessage . "'" .
+                "\n" . "To verify, click the following link: $verificationLink";
+            $headers = 'From: no-reply@greenriverdev.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+
+            if (mail('billingsley.braedon@student.greenriver.edu', $subject, $message, $headers)) {
+                $response['status'] = 'success';
+                $response['message'] = 'Form submitted successfully.';
+            }
         }
-
-        if (Validate::isDuplicateEmail($email))
-        {
-            $this->_f3->set('SESSION.error', 'Email already requested access');
-            $this->renderRequestAccess();
-            return;
-        }
-
-        // In production or dev - change this to the correct domain
-        $rootUrl = "https://braedonbillingsley.greenriverdev.com/BASBusinessPortfolio";
-
-        // Send verification email to admin
-        $verificationLink = $rootUrl . '/verify-access-request?email=' . urlencode($email);
-        $subject = 'Access Request Verification';
-        $message = "A new access request has been made. " . "Please review the users message: '" . $userMessage . "'" .
-        "\n" . "To verify, click the following link: $verificationLink";
-        // Change From: to no-reply@yourdomain.com
-        $headers = 'From: no-reply@greenriverdev.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-
-        // Change TO: to your admin or dev email address
-        if (mail('billingsley.braedon@student.greenriver.edu', $subject, $message, $headers))
-        {
-            $this->_f3->set('SESSION.success', 'Verification email sent to admin');
-        } else
-        {
-            $this->_f3->set('SESSION.error', 'Failed to send verification email');
-        }
-
-        $this->renderRequestAccess();
+        echo json_encode($response);
     }
 
     /**
      * Verifies the access request.
      *
-     * This method retrieves the email address from the GET request parameter and
-     * performs the following steps:
-     * - Checks if the email address is valid. If not, it echoes 'Invalid email address' and returns.
-     * - Checks if the email address is already requested access. If so, it echoes 'Email already requested access' and returns.
-     * - Creates an access code and sends it to the student's email address.
-     * - If an error occurs during the process, it echoes 'Failed to process request'.
+     * This method is responsible for verifying the access request by performing the following steps:
+     * - Sets the response header content type to 'application/json'.
+     * - Retrieves the email address from the GET parameters.
+     * - Attempts to create an access code and send it via email to the student using the Access class.
+     * - If any exception is thrown during the execution, an error message is encoded in JSON format and echoed.
      *
      * @return void
      */
     public function verifyAccessRequest(): void
     {
+        header('Content-Type: application/json');
         $email = $this->_f3->get('GET.email');
 
-        if (!Validate::isValidEmail($email))
-        {
-            echo 'Invalid email address';
-            return;
-        }
-
-        if (Validate::isDuplicateEmail($email))
-        {
-            echo 'Email already requested access';
-            return;
-        }
-
-        try
-        {
+        try {
             Access::createAccessCodeAndMailToStudent($email);
-            echo 'Access code sent to ' . htmlspecialchars($email);
-        } catch (RuntimeException $e)
-        {
-            echo 'Failed to process request:' . $e;
+        } catch (RuntimeException $e) {
+            echo json_encode(['error' => 'Failed to process request: ' . $e->getMessage()]);
         }
     }
 
     /**
-     * Verifies the access code provided.
+     * Processes the access code.
      *
-     * This method takes an access code as a parameter and verifies its validity by
-     * calling the `isValidAccessCode` method of the `Validate` class and the `checkAccessCode`
-     * method of the `Access` class. If the access code is invalid or doesn't grant access,
-     * it sets a session error message and renders the access code view using the `renderAccessCode`
-     * method. If the access code is valid and grants access, it redirects either to the registration
-     * page or the home page based on the result of the `isRegistrationRequired` method.
-     *
-     * @param string $accessCode The access code to verify.
-     * @return void
-     */
-    public function verifyAccessCode(string $accessCode): void
+     * This method is responsible for processing the given access code by performing the following steps:
+     * - Sets the content type as JSON for the response.
+     * - Sanitizes the access code using the "sanitizeString" method from the "Validate" class.
+     * - Validates the access code using the "isValidAccessCode" method from the "Validate" class.
+     * - If the access code is invalid, sets the response status code as 400 (Bad Request) and outputs an error message.
+     * - Checks if the access code exists and is allowed using*/
+    public function processAccessCode(string $accessCode): void
     {
-        if (!Validate::isValidAccessCode($accessCode) || !Access::checkAccessCodeForEmail($accessCode))
-        {
-            $this->_f3->set('SESSION.error', 'Invalid access code for the provided email.');
-            $this->renderAccessCode();
+        header('Content-Type: application/json');
+
+        // Sanitize the access code
+        $accessCode = Validate::sanitizeString($accessCode);
+
+        // Validate the access code
+        if (!Validate::isValidAccessCode($accessCode)) {
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => 'Invalid access code format.']);
             return;
         }
 
+        // Check if the access code exists and is allowed
+        if (!Access::checkAccessCode($accessCode)) {
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => 'Access code is incorrect']);
+            return;
+        }
+
+        // If access code is valid and allowed, grant access
         $this->_f3->set('SESSION.access_granted', true);
-        $this->_f3->reroute('/login');
+        $_SESSION['success'] = 'Access granted.';
+        http_response_code(HTTP_OK);
+        echo json_encode(['success' => 'Access granted. Redirecting...', 'redirect' => 'login']);
     }
 
     /**
@@ -198,35 +192,8 @@ class Controller
      */
     function renderAccessCode(): void
     {
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/access_code.html');
-    }
-
-    /**
-     * Interprets the error code and returns the corresponding error message.
-     *
-     * This method takes an error code as input and returns the corresponding error message
-     * based on the value of the error code. The error codes and their corresponding error
-     * messages are defined in the `Validate` class.
-     *
-     * @param int $result The error code to interpret.
-     * @return string The error message corresponding to the error code.
-     */
-    function interpretError(int $result): string
-    {
-        return match ($result)
-        {
-            Validate::INVALID_EMAIL => 'Please enter a valid email address',
-            Validate::INVALID_NAME => 'Please enter a valid name',
-            Validate::INCORRECT_PASSWORD => 'The password you entered is incorrect!',
-            Validate::INCORRECT_USERNAME => 'The username you entered is incorrect!',
-            Validate::INCORRECT_ACCESS_CODE => 'The access code you entered is incorrect!',
-            Validate::INVALID_STRING => 'Please enter a valid string',
-            Validate::REQUEST_SUCCESS => 'Access request sent successfully!',
-            Validate::DUPLICATE_EMAIL => 'This email already exists',
-            default => 'No match!',
-        };
     }
 
     /**
@@ -236,7 +203,6 @@ class Controller
      */
     function renderLogin(): void
     {
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/login.html');
     }
@@ -262,35 +228,31 @@ class Controller
      */
     function processLogin(string $username, string $password): void
     {
+        header('Content-Type: application/json');
+
         $username = Validate::sanitizeString($username);
         $password = Validate::sanitizeString($password);
 
-        if (Validate::isValidLogin($username, $password))
+        $validationResult = Validate::isValidLogin($username, $password);
+        if ($validationResult !== 'valid')
         {
-            $userEmail = UserAccount::getEmailByUsername($username);
-            if (!Access::checkAccess($userEmail))
-            {
-                $this->_f3->set('SESSION.error', 'Access code verification required.');
-                $this->_f3->reroute('/access-code');
-                return;
-            }
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => $validationResult]);
+            return;
+        }
 
-            $authResult = UserAccount::authenticateUser($username, $password);
+        $authResult = UserAccount::authenticateUser($username, $password);
 
-            if ($authResult)
-            {
-                $this->_f3->set('SESSION.loggedin', true);
-                $this->_f3->set('SESSION.username', $username);
-                $this->_f3->reroute('/timeline');
-            } else
-            {
-                $this->_f3->set('SESSION.error', 'Invalid username or password');
-                $this->_f3->reroute('/login');
-            }
+        if ($authResult)
+        {
+            $this->_f3->set('SESSION.loggedin', true);
+            $this->_f3->set('SESSION.username', $username);
+            http_response_code(HTTP_OK);
+            echo json_encode(['success' => 'Login successful. Redirecting...', 'redirect' => 'timeline']);
         } else
         {
-            $this->_f3->set('SESSION.error', 'Invalid input');
-            $this->_f3->reroute('/login');
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => 'Invalid username or password']);
         }
     }
 
@@ -301,7 +263,6 @@ class Controller
      */
     function renderRegister(): void
     {
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/register.html');
     }
@@ -333,23 +294,27 @@ class Controller
      */
     public function processRegister(string $username, string $email, string $password, string $confirmPassword): void
     {
+        header('Content-Type: application/json');
+
         $username = Validate::sanitizeString($username);
         $email = Validate::sanitizeString($email);
         $password = Validate::sanitizeString($password);
         $confirmPassword = Validate::sanitizeString($confirmPassword);
 
-        if (!Validate::isValidRegistration($username, $email, $password, $confirmPassword))
+        $validationResult = Validate::isValidRegistration($username, $email, $password, $confirmPassword);
+
+        if (!$validationResult['valid'])
         {
-            $this->_f3->set('SESSION.error', 'Invalid input. Please correct the errors and try again.');
-            $this->_f3->reroute('/register');
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => $validationResult['errors']]);
             return;
         }
 
         if (!$this->_f3->get('SESSION.access_granted') && !Access::checkAccess($email))
         {
             $this->_f3->set('SESSION.email', $email);
-            $this->_f3->set('SESSION.error', 'Access code verification required.');
-            $this->_f3->reroute('/access-code');
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => 'Access code verification required.']);
             return;
         }
 
@@ -359,12 +324,8 @@ class Controller
         if ($registrationResult)
         {
             $this->_f3->clear('SESSION.access_granted');
-            $this->_f3->set('SESSION.success', 'Registration successful! Please log in.');
-            $this->_f3->reroute('/login');
-        } else
-        {
-            $this->_f3->set('SESSION.error', 'Registration error. This username / email is already registered. Please try again.');
-            $this->_f3->reroute('/register');
+            http_response_code(HTTP_OK);
+            echo json_encode(['success' => 'Registration successful! Please log in.', 'redirect' => 'login']);
         }
     }
 
@@ -382,7 +343,6 @@ class Controller
     function renderTimeline(): void
     {
         $this->checkLogin();
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/timeline.html');
     }
@@ -401,41 +361,54 @@ class Controller
     function renderItem(): void
     {
         $this->checkLogin();
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/item.html');
     }
 
     /**
-     * Processes an item.
+     * Process item and return a JSON response.
      *
-     * This method is responsible for processing an item by performing the following steps:
+     * This method is responsible for processing the submitted item data and returning a JSON response by performing the following steps:
+     * - Sets the Content-Type header to application/json.
      * - Checks if the user is logged in.
-     * - Retrieves the item description, title, and type from the $_POST array.
-     * - Creates a new Item object using the retrieved data.
-     * - Saves the item using the saveItem() method of the Item object.
-     * - If an exception occurs during item creation or saving, an error is logged.
-     * - Renders the timeline view using the renderTimeline() method.
+     * - Sanitizes and retrieves the item description, title, and type from the $_POST array.
+     * - Validates the item data using the Validate::isValidItem() method.
+     * - If the validation fails, sets the HTTP status code to HTTP_BAD_REQUEST, encodes the validation errors as JSON, and outputs the result.
+     * - If the validation passes, creates a new Item object with the sanitized data, saves the item, sets the HTTP status code to HTTP_OK, encodes a success message and redirect URL as
+     * JSON, and outputs the result.
+     * - If any exceptions occur during the item creation or saving process, logs the error, sets the HTTP status code to HTTP_INTERNAL_SERVER_ERROR, encodes an error message as JSON, and
+     * outputs the result.
      *
      * @return void
      */
     public function processItem(): void
     {
+        header('Content-Type: application/json');
         $this->checkLogin();
-        $itemDescription = $_POST['itemDescription'];
-        $title = $_POST['title'];
-        $itemType = $_POST['itemType'];
+
+        $itemDescription = isset($_POST['itemDescription']) ? Validate::sanitizeString($_POST['itemDescription']) : null;
+        $title = isset($_POST['title']) ? Validate::sanitizeString($_POST['title']) : null;
+        $itemType = isset($_POST['itemType']) ? Validate::sanitizeString($_POST['itemType']) : null;
+
+        $validationResult = Validate::isValidItem($itemDescription, $title, $itemType);
+
+        if (!$validationResult['valid']) {
+            http_response_code(HTTP_BAD_REQUEST);
+            echo json_encode(['error' => $validationResult['errors']]);
+            return;
+        }
 
         try {
             $item = new Item($itemDescription, $itemType, $title);
             $item->saveItem();
+            http_response_code(HTTP_OK);
+            echo json_encode(['success' => 'Item added successfully.', 'redirect' => 'timeline']);
         } catch (Exception $e) {
-            error_log("Error creating item" . $e);
+            error_log("Error creating item: " . $e);
+            http_response_code(HTTP_INTERNAL_SERVER_ERROR);
+            echo json_encode(['error' => 'An error occurred while adding the item. Please try again later.']);
         }
-
-        $this->renderTimeline();
     }
-
 
     /**
      * Creates a timeline object in the Student account.
@@ -461,22 +434,8 @@ class Controller
     function renderTask(): void
     {
         $this->checkLogin();
-        $this->clearSessionMessages();
         $view = new Template();
         echo $view->render('app/view/task.html');
-    }
-
-    /**
-     * Clears any session messages.
-     *
-     * This method clears any error or success messages stored in the session.
-     *
-     * @return void
-     */
-    public function clearSessionMessages(): void
-    {
-        $this->_f3->clear('SESSION.error');
-        $this->_f3->clear('SESSION.success');
     }
 
     /**
@@ -489,11 +448,45 @@ class Controller
      */
     function logout(): void
     {
+        $this->checkLogin();
         $this->_f3->clear('SESSION');
         if (session_status() === PHP_SESSION_ACTIVE)
         {
             session_destroy();
         }
         $this->_f3->reroute('/login');
+    }
+
+    /**
+     * Process the GET request for retrieving all items.
+     *
+     * This method is responsible for processing the GET request to retrieve all items by performing the following steps:
+     * - Calls the getItems() method of the Item class to retrieve all items.
+     * - Converts the items to an associative array, with each item having the following fields:
+     *     - 'creationDate': The creation date of the item in 'Y-m-d H:i:s' format.
+     *     - 'itemDescription': The description of the item.
+     *     - 'itemType': The type of the item.
+     *     - 'title': The title of the item.
+     *     - Add more fields as needed.
+     * - Sets the 'items' data to the f3 hive.
+     * - Outputs the 'items' data encoded in JSON format.
+     *
+     * @return void
+     */
+    public function processGetItems(): void
+    {
+        $items = Item::getItems();
+
+        $itemsArray = array_map(function($item) {
+            return [
+                'creationDate' => $item->getCreationDate()->format('Y-m-d H:i:s'),
+                'itemDescription' => $item->getItemDescription(),
+                'itemType' => $item->getItemType(),
+                'title' => $item->getTitle(),
+            ];
+        }, $items);
+
+        $this->_f3->set('items', $itemsArray);
+        echo json_encode($this->_f3->get('items'));
     }
 }

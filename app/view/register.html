@@ -20,7 +20,7 @@ This is the registration view page
     <div class="card-register shadow-sm">
         <div class="card-body-register">
             <h5 class="card-title text-center">Register</h5>
-            <form action="register" method="POST">
+            <form id="register-form" action="register" method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username" required>
@@ -37,18 +37,21 @@ This is the registration view page
                     <label for="confirm_password" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                 </div>
+                <!-- Error message -->
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <!-- Success message -->
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-register">Register</button>
                 </div>
-                <div class="d-flex justify-content-between mt-4">
-                    <div id="register-error" class="alert alert-danger" role="alert" style="display: none;">
-                        Registration error. Please try again.
-                    </div>
-                </div>
+                <a  class="request-access" href="request-access">Need to request access?</a>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Link to the external JavaScript file -->
+<script src="public/js/response.js"></script>
 
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>

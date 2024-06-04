@@ -9,13 +9,13 @@
 class Access
 {
     /**
-     * Check if the given access code exists in the AccessCodes table.
+     * Check if the given access code and email exist in the AccessCodes table.
      *
      * @param string $accessCode The access code to check.
      *
-     * @return bool Returns true if the access code exists, false otherwise.
+     * @return bool Returns true if the access code exists for the given email, false otherwise.
      */
-    public static function checkAccessCodeForEmail(string $accessCode): bool
+    public static function checkAccessCode(string $accessCode): bool
     {
         $sql = "SELECT * FROM `AccessCodes` WHERE `AccessCode` = :accessCode";
         $stmt = Database::getConnection()->prepare($sql);

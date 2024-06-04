@@ -20,7 +20,8 @@ This is the login view page
     <div class="card-login shadow-sm">
         <div class="card-body-login">
             <h5 class="card-title text-center mb-3">Login</h5>
-            <form action="login" method="POST">
+            <!-- Login Form -->
+            <form id="login-form" action="login" method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" required>
@@ -30,26 +31,32 @@ This is the login view page
                     <input type="password" class="form-control" id="password" name="password" required>
                     <div id="passwordHelp" class="form-text"></div>
                 </div>
+                <!-- Error message -->
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <!-- Success message -->
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
+                <!-- Remember me checkbox -->
                 <div class="d-flex justify-content-between mt-4">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember Me</label>
                     </div>
                     <br>
-                    <div id="login-error" class="alert alert-danger" role="alert" style="display: none;">
-                        Invalid username or password.
-                    </div>
                 </div>
-
+                <!-- Log in form submit button -->
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-login">Sign In</button>
                 </div>
+                <!-- link to create an account -->
                 <a  class="create-login" href="register">Create an Account</a>
             </form>
         </div>
 
     </div>
 </div>
+
+<!-- Link to the external JavaScript file -->
+<script src="public/js/response.js"></script>
 
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>

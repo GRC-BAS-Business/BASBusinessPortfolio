@@ -20,7 +20,7 @@ This is the access code view page
     <div class="card shadow-sm">
         <div class="card-body">
             <h5 class="card-title text-center mb-3">Enter Access Code</h5>
-            <form action="access-code" method="POST">
+            <form id="access-code-form" action="access-code" method="POST">
                 <div class="mb-3">
                     <label for="access-code" class="form-label">Access code</label>
                     <input type="text" class="form-control" id="access-code" name="accessCode" aria-describedby="accessCodeHelp" required>
@@ -31,13 +31,19 @@ This is the access code view page
                 <div>
                     <a href="request-access">Need access?</a>
                 </div>
-                <div id="access-code-error" class="alert alert-danger" role="alert" style="display: {{ isset(@SESSION.error) ? 'block' : 'none' }};">
-                    {{ @SESSION.error }}
-                </div>
+
+                <!-- Error message -->
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+                <!-- Success message -->
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Link to the external JavaScript file -->
+<script src="public/js/response.js"></script>
 
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>
