@@ -16,6 +16,7 @@ class Validate
     const INVALID_STRING = 6;
     const REQUEST_SUCCESS = 7;
     const DUPLICATE_EMAIL = 8;
+    const INVALID_ACCESS_CODE = 9;
 
     /**
      * Sanitize a string by converting special characters to HTML entities and removing leading/trailing whitespace
@@ -68,70 +69,152 @@ class Validate
     }
 
     /**
-     * Validates login credentials.
+     * Checks if an email is registered in the UserAccount table.
      *
-     * @param string $username The username provided by the user.
-     * @param string $password The password provided by the user.
-     * @return bool True if the input is valid, otherwise false.
+     * @param string $email The email to check if it is registered.
+     *
+     * @return string Returns the registered email if found, or an empty string if not found.
      */
-    public static function isValidLogin(string $username, string $password): bool
+    public static function isEmailRegistered(string $email): string
+    {
+        $sql = "SELECT email FROM UserAccount WHERE email = :email";
+        $stmt = Database::getConnection()->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $isRegistered = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($isRegistered)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the given login credentials are valid.
+     *
+     * @param string $username The username to be validated.
+     * @param string $password The password to be validated.
+     *
+     * @return string Returns the validation result:
+     * - If either the username or password is empty, the function returns 'Username and password are required.'
+     * - If the password is less than 8 characters, the function returns 'Password must be at least 8 characters long.'
+     * - If the username contains any characters other than alphanumeric, periods, or underscores,
+     *   the function returns 'Username can only contain alphanumeric characters, periods, and underscores.'
+     * - If the login credentials are valid, the function returns 'valid'.
+     */
+    public static function isValidLogin(string $username, string $password): string
     {
         if (empty($username) || empty($password))
         {
-            return false;
+            return 'Username and password are required.';
         }
 
         if (strlen($password) < 8)
         {
-            return false;
+            return 'Password must be at least 8 characters long.';
         }
 
         if (!preg_match('/^[a-zA-Z0-9._]+$/', $username))
         {
-            return false;
+            return 'Username can only contain alphanumeric characters, periods, and underscores.';
         }
 
-        return true;
+        return 'valid';
     }
 
     /**
-     * Checks if the given registration details are valid.
+     * Checks if the given registration data is valid.
      *
      * @param string $username The username to be validated.
      * @param string $email The email address to be validated.
      * @param string $password The password to be validated.
      * @param string $confirmPassword The confirmed password to be validated.
      *
-     * @return bool Returns true if the registration details are valid, false otherwise.
+     * @return array Returns an array with a 'valid' key that indicates if the registration is valid (true or false),
+     *               and an optional 'errors' key that contains any validation errors as an array.
      */
-    public static function isValidRegistration(string $username, string $email, string $password, string $confirmPassword): bool
+    public static function isValidRegistration(string $username, string $email, string $password, string $confirmPassword): array
     {
+        $errors = [];
+
         if (empty($username) || empty($email) || empty($password) || empty($confirmPassword))
         {
-            return false;
+            $errors[] = 'All fields are required.';
         }
 
         if (!self::isValidEmail($email))
         {
-            return false;
+            $errors[] = 'Invalid email address.';
         }
+
+        if (self::isEmailRegistered($email)) {
+                $errors[] = 'Email already registered.';
+            }
 
         if ($password !== $confirmPassword)
         {
-            return false;
+            $errors[] = 'Passwords do not match.';
         }
 
         if (strlen($password) < 8)
         {
-            return false;
+            $errors[] = 'Password must be at least 8 characters long.';
         }
 
         if (!preg_match('/^[a-zA-Z0-9._]+$/', $username))
         {
-            return false;
+            $errors[] = 'Username can only contain letters, numbers, dots, and underscores.';
         }
 
-        return true;
+        if (empty($errors))
+        {
+            return ['valid' => true];
+        }
+
+        return ['valid' => false, 'errors' => $errors];
+    }
+
+    /**
+     * Validates the item details.
+     *
+     * @param string $itemDescription The description of the item.
+     * @param string $title The title of the item.
+     * @param string $itemType The type of the item.
+     *
+     * @return array An array containing the validation result and any error messages.
+     *               - 'valid' => true if validation is successful, false otherwise.
+     *               - 'errors' => An array of error messages if validation fails.
+     */
+    public static function isValidItem(string $itemDescription, string $title, string $itemType): array
+    {
+        $errors = [];
+
+        if (empty($itemDescription) || empty($title) || empty($itemType))
+        {
+            $errors[] = 'All fields are required';
+        }
+
+        if (strlen($itemDescription) < 10) {
+            $errors[] = 'Item description must be at least 10 characters long';
+        }
+
+        if (strlen($title) < 5) {
+            $errors[] = 'Title must be at least 5 characters long';
+        }
+
+        if (!in_array($itemType, ['Work Experience', 'Resume', 'Certification'])) { // Replace with actual valid types
+            $errors[] = 'Invalid item type selected';
+        }
+
+        if (empty($errors))
+        {
+            return ['valid' => true];
+        }
+
+        return ['valid' => false, 'errors' => $errors];
     }
 
     //...more validation/sanitization methods as needed

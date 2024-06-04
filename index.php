@@ -18,10 +18,14 @@ session_start([
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// Declare constants for status codes
+const HTTP_OK = 200;
+const HTTP_BAD_REQUEST = 400;
+const HTTP_INTERNAL_SERVER_ERROR = 500;
+
 // Instantiate Fat-free framework (F3), and new Controller F3 object
 $f3 = Base::instance();
 $con = new Controller($f3);
-$ajax = new AJAX($f3);
 
 // Default route to "home.html" view
 $f3->route('GET /', function () use ($con)
@@ -30,17 +34,11 @@ $f3->route('GET /', function () use ($con)
 });
 
 // Route to handle "request_access.html" submission
-$f3->route('POST /request-access', function($f3) use($con, $ajax)
+$f3->route('POST /request-access', function() use($con)
 {
     $email = $_POST['email'];
     $message = $_POST['message'];
-    if ($f3->get('AJAX'))
-    {
-        $con->processAccessRequest($email, $message);
-    } else
-    {
-        $ajax->processAccessRequestWithRedirect($email, $message);
-    }
+    $con->processAccessRequest($email, $message);
 });
 
 // Route to "request_access.html" view
@@ -59,7 +57,7 @@ $f3->route('GET /access-code', function () use ($con)
 $f3->route('POST /access-code', function() use ($con)
 {
     $accessCode = $_POST['accessCode'];
-    $con->verifyAccessCode($accessCode);
+    $con->processAccessCode($accessCode);
 });
 
 // Route to handle access request verification
@@ -117,25 +115,9 @@ $f3->route('GET /item', function () use ($con)
 });
 
 // Route to fetch all items to json
-$f3->route('GET /get-items', function($f3) {
-    // Retrieve all items
-    $items = Item::getItems();
-    error_log(print_r($items, true));
-
-    // Convert the items to an associative array
-    $itemsArray = array_map(function($item) {
-        return [
-            'creationDate' => $item->getCreationDate()->format('Y-m-d H:i:s'),
-            'itemDescription' => $item->getItemDescription(),
-            'itemType' => $item->getItemType(),
-            'title' => $item->getTitle(),
-            // add more fields as needed
-        ];
-    }, $items);
-
-    // Set data to the f3 hive
-    $f3->set('items', $itemsArray);
-    echo json_encode($f3->get('items'));
+$f3->route('GET /get-items', function() use ($con)
+{
+    $con->processGetItems();
 });
 
 // Route to "task.html" view

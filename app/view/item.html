@@ -23,7 +23,7 @@ This is the create item view page.
     </div>
 
     <!--Create item form-->
-    <form id="item-form" action="item" method="post">
+    <form id="item-form" action="item" method="POST">
 
         <!--Item name-->
         <div>
@@ -54,9 +54,18 @@ This is the create item view page.
                 <span class="front">Create Item</span>
             </button>
         </div>
+
+        <!-- Error message -->
+        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+        <!-- Success message -->
+        <div id="success-message" class="alert alert-success" style="display: none;"></div>
     </form>
 </div>
-</body>
+
+<!-- Link to the external JavaScript files -->
+<script src="public/js/item.js"></script>
+<script src="public/js/response.js"></script>
 
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>

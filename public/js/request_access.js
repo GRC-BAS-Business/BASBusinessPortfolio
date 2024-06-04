@@ -6,53 +6,47 @@
  *  @url https://bas-business-portfolio.greenriverdev.com
  **/
 document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('request-access-form');
+    // Form to request access
+    const requestAccessForm = document.getElementById('request-access-form');
+    if (requestAccessForm) {
+        requestAccessForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            handleSubmit(event, 'request-access', 'POST');
+        });
+    }
 
-    form.addEventListener('submit', function(event) {
+    // Function to handle form submissions
+    function handleSubmit(event, url, method) {
         event.preventDefault();
+        let errorElement = document.getElementById('error-message');
+        let successElement = document.getElementById('success-message');
 
+        const form = event.target;
         const formData = new FormData(form);
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'request-access', true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 400) {
-                console.log(xhr.responseText);
-                const response = JSON.parse(xhr.responseText);
-                handleResponse(response);
-            } else {
-                console.error('Server error: ' + xhr.statusText);
-            }
-        };
-
-        xhr.onerror = function() {
-            console.error('Request error');
-        };
-
-        xhr.send(formData);
-    });
-
-    /**
-     * Handles the response from an API request.
-     *
-     * @param {Object} response - The response object from the API request.
-     * @property {string} response.error - The error message.
-     * @property {string} response.success - The success message.
-     * @return {void}
-     */
-    function handleResponse(response) {
-        const errorMessage = document.getElementById('error-message');
-        const successMessage = document.getElementById('success-message');
-
-        if (response.error) {
-            errorMessage.textContent = response.error;
-            errorMessage.style.display = 'block';
-            successMessage.style.display = 'none';
-        } else if (response.success) {
-            successMessage.textContent = response.success;
-            successMessage.style.display = 'block';
-            errorMessage.style.display = 'none';
-        }
+        fetch(url, {
+            method: method,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: method === 'POST' ? formData : undefined
+        })
+            .then(response => response.json())  // Convert the response to JSON
+            .then(data => {
+                // Here you handle the response
+                if(data.status === 'error') {
+                    // Show the error message
+                    errorElement.textContent = data.message;
+                    errorElement.style.display = 'block';
+                }
+                else {
+                    // Show the success message
+                    successElement.textContent = data.message;
+                    successElement.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     }
 });

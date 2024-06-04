@@ -36,18 +36,19 @@ This is the request access view page
                 <div>
                     <a href="access-code">Have an access code?</a>
                 </div>
-                <!-- Error and Success Messages -->
-                <div id="error-message" class="alert alert-danger" role="alert" {{ isset(@SESSION.error) ? '' : 'style="display: none;"' }}>
-                    {{ isset(@SESSION.error) ? @SESSION.error : '' }}
-                </div>
-                <div id="success-message" class="alert alert-success" role="alert" {{ isset(@SESSION.success) ? '' : 'style="display: none;"' }}>
-                {{ isset(@SESSION.success) ? @SESSION.success : '' }}
-                </div>
+
+                <!-- Error message -->
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+                <!-- Success message -->
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
             </form>
         </div>
     </div>
 </div>
+
 <!-- Link to the external JavaScript file -->
 <script src="public/js/request_access.js"></script>
+
 <!--Footer-->
 <include href="app/view/components/footer.html"></include>
