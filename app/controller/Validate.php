@@ -8,15 +8,8 @@
  **/
 class Validate
 {
-    const INVALID_EMAIL = 1;
-    const INVALID_NAME = 2;
-    const INCORRECT_PASSWORD = 3;
-    const INCORRECT_USERNAME = 4;
-    const INCORRECT_ACCESS_CODE = 5;
-    const INVALID_STRING = 6;
-    const REQUEST_SUCCESS = 7;
-    const DUPLICATE_EMAIL = 8;
-    const INVALID_ACCESS_CODE = 9;
+    const REQUEST_SUCCESS = "Access Request was successfully sent";
+    const DUPLICATE_EMAIL = "Email already registered with access code.";
 
     /**
      * Sanitize a string by converting special characters to HTML entities and removing leading/trailing whitespace
