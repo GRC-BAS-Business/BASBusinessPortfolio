@@ -13,31 +13,29 @@ This is the create item view page.
 <!-- Header -->
 <include href="app/view/components/header.html"></include>
 
-<!--Create item container-->
+<!-- Create item container -->
 <div class="container">
-
-    <!--Title and Description-->
+    <!-- Title and Description -->
     <div class="home-title-description text-center">
         <h1>Create a portfolio item below</h1>
-        <p>Please complete the following, then submit to your item to timeline.</p>
+        <p>Please complete the following, then submit your item to the timeline.</p>
     </div>
 
-    <!--Create item form-->
-    <form id="item-form" action="item" method="POST">
-
-        <!--Item name-->
+    <!-- Create item form -->
+    <form id="item-form" action="item" method="POST" class="item-submit">
+        <!-- Item name -->
         <div>
             <label for="title">Item Name:</label><br>
             <input type="text" id="title" name="title">
         </div>
 
-        <!--Item description-->
+        <!-- Item description -->
         <div>
             <label for="itemDescription">Description:</label><br>
             <textarea id="itemDescription" name="itemDescription"></textarea>
         </div>
 
-        <!--Item type dropdown selector-->
+        <!-- Item type dropdown selector -->
         <div>
             <label>Type:
                 <select type="drop" id="itemType" name="itemType">
@@ -48,7 +46,7 @@ This is the create item view page.
             </label>
         </div>
 
-        <!--Create item submit button-->
+        <!-- Create item submit button -->
         <div class="mt-4">
             <button class="push" type="submit" id="submit-button">
                 <span class="front">Create Item</span>

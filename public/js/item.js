@@ -5,35 +5,51 @@
  *  @copyright 2024
  *  @url https://bas-business-portfolio.greenriverdev.com
  **/
+// public/js/item.js
 document.addEventListener("DOMContentLoaded", function() {
-    window.onload = function () {
-        fetch('get-items')
+    const form = document.getElementById('item-form');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {
+            title: formData.get('title'),
+            itemDescription: formData.get('itemDescription'),
+            itemType: formData.get('itemType')
+        };
+
+        fetch('create-item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 return response.json();
             })
-            .then(data => {
-
-                const itemsContainer = document.querySelector('#items');
-
-                for (let item of data) {
-                    const element = document.createElement('div');
-
-                    const titleElement = document.createElement('h2');
-                    titleElement.textContent = item.title;
-
-                    const descriptionElement = document.createElement('p');
-                    descriptionElement.textContent = item.itemDescription;
-
-                    const typeElement = document.createElement('p');
-                    typeElement.textContent = item.itemType;
-
-                    element.appendChild(titleElement);
-                    element.appendChild(descriptionElement);
-                    element.appendChild(typeElement);
-
-                    itemsContainer.appendChild(element);
+            .then(result => {
+                if (result.success) {
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    successMessage.textContent = 'Item created successfully!';
+                    form.reset();
+                } else {
+                    successMessage.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Error creating item: ' + result.message;
                 }
             })
-            .catch(error => console.error(error));
-    };
+            .catch(error => {
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Error creating item: ' + error.message;
+            });
+    });
 });
