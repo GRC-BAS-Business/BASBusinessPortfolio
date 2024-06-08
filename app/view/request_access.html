@@ -19,7 +19,7 @@ This is the request access view page
     <!-- Request Access Card -->
     <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="card-title text-center mb-3">Request Access</h5>
+            <h5 class="card-request text-center mb-3">Request Access</h5>
             <form id="request-access-form" action="request-access" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -31,10 +31,10 @@ This is the request access view page
                     <div id="messageHelp" class="form-text">Please enter a message.</div>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Request Access</button>
+                    <button type="submit" class="btn btn-request">Request Access</button>
                 </div>
                 <div>
-                    <a href="access-code">Have an access code?</a>
+                    <a class="access-code" href="access-code">Use access code</a>
                 </div>
 
                 <!-- Error message -->
