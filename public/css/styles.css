@@ -41,14 +41,61 @@ header {
 /* login.html styles */
 
 /* timeline.html styles */
-.add-item {
-    padding-bottom: 20px;
+.view-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.view-item {}
+.view-item .timeline-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.view-item .timeline-item h2 {
+    margin-top: 0;
+}
+
+.view-item .timeline-item p {
+    margin: 5px 0;
+}
 
 /* item.html styles */
-.item-submit {}
+.item-submit {
+    margin-top: 20px;
+}
+
+.item-submit div {
+    margin-bottom: 15px;
+}
+
+.item-submit label {
+    font-weight: bold;
+}
+
+.item-submit input,
+.item-submit textarea,
+.item-submit select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.item-submit button {
+    background-color: #171d3a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.item-submit button:hover {
+    background-color: #94ABF9;
+}
 
 /*HOME PAGE styles*/
 .logo {
@@ -161,16 +208,23 @@ header {
     width: 507px;
     margin: 54px;
 
+
     .btn-register {
         text-align: center;
         color: #ffffff;
         background-color: #171d3a;
 
-    }
+}
 
-    .btn-register:hover {
-        background-color: #94ABF9;
-    }
+
+.card-register .btn-register {
+    text-align: center;
+    color: #ffffff;
+    background-color: #171d3a;
+}
+
+.card-register .btn-register:hover {
+    background-color: #94ABF9;
 }
 
 .card-title, .form-label {
@@ -210,4 +264,9 @@ textarea{
 /*taskPage*/
 #taskForm {
     padding: 20px 400px 0px 400px;
+
+
+.card-title, .form-label {
+    font-weight: bold;
+
 }
