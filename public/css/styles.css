@@ -207,7 +207,15 @@ header {
     border-radius: 30px;
     width: 507px;
     margin: 54px;
+
+
+    .btn-register {
+        text-align: center;
+        color: #ffffff;
+        background-color: #171d3a;
+
 }
+
 
 .card-register .btn-register {
     text-align: center;
@@ -220,5 +228,45 @@ header {
 }
 
 .card-title, .form-label {
+    font-weight:bold;
+}
+/*item page*/
+#item-form{
+    padding: 20px 400px 0px 400px;
+}
+
+input[type="text"],.item-text,select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+textarea{
+    resize: vertical;
+    height: 100px;
+}
+
+.mt-4{
+    margin-top: 20px;
+    text-align: center;
+}
+.push{
+    background-color: #171d3a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+}
+.push:hover{
+    background-color: #94ABF9;
+}
+
+/*taskPage*/
+#taskForm {
+    padding: 20px 400px 0px 400px;
+
+
+.card-title, .form-label {
     font-weight: bold;
+
 }
