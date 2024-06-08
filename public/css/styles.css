@@ -183,16 +183,15 @@ header {
     margin: 34px;
 }
 
-.btn-login {
+.card-login .btn-login {
     text-align: center;
     color: #ffffff;
     background-color: #171d3a;
 }
 
-.btn-login:hover {
+.card-login .btn-login:hover {
     background-color: #94ABF9;
 }
-
 .form-check {
     padding-bottom: 19px;
 }
@@ -206,6 +205,16 @@ header {
 }
 
 /* register-page */
+.request-access {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: #171d3a;
+    margin-top: 15px;
+}
+.request-access:hover {
+    color: #94ABF9;
+}
 
 .card-register {
     background-color: #ffffff;
@@ -268,4 +277,69 @@ header {
 
 .push:hover {
     background-color: #94ABF9;
+}
+
+
+/*request-access*/
+
+
+.card-request {
+    font-size: 24px;
+    color: #333;
+    font-weight:bold;
+}
+
+.card.shadow-sm {
+    border-radius: 20px;
+    padding: 20px;
+    width: 400px;
+    margin-top: 50px;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+.access-code{
+
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: #171d3a;
+    margin-top: 15px;
+}
+.access-code:hover {
+    color: #94ABF9;
+}
+.btn.btn-request {
+    text-align: center;
+    color: #ffffff;
+    background-color: #171d3a;
+}
+
+.btn.btn-request:hover {
+    background-color: #94ABF9;
+}
+
+
+/*access code page*/
+
+.btn.btn-access {
+    text-align: center;
+    color: #ffffff;
+    background-color: #171d3a;
+}
+
+.btn.btn-access:hover {
+    background-color: #94ABF9;
+}
+
+.need-access-link{
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: #171d3a;
+    margin-top: 15px;
+}
+.need-access-link:hover {
+    color: #94ABF9;
 }
