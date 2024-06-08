@@ -235,16 +235,18 @@ header {
     padding: 20px 400px 0px 400px;
 }
 
-input[type="text"],.item-text,select{
+.input[type="text"],.item-text,.select{
     width: 100%;
     padding: 10px;
     border: 1px solid white;
     border-radius: 4px;
+    .textarea{
+        resize: vertical;
+        height: 100px;
+    }
+
 }
-textarea{
-    resize: vertical;
-    height: 100px;
-}
+
 
 .mt-4{
     margin-top: 20px;
