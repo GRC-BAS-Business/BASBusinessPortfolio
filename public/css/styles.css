@@ -64,6 +64,10 @@ header {
 }
 
 /* item.html styles */
+#item-form{
+    padding: 20px 400px 0px 400px;
+}
+
 .item-submit {
     margin-top: 20px;
 }
@@ -169,54 +173,53 @@ header {
     padding: 15px;
 }
 
-/*login-page*/
+/* login-page */
 
-.card-login{
+.card-login {
     background-color: #ffffff;
-    padding:25px;
-    border-radius:30px;
-    width:367px;
-    margin:34px;
-
-    .btn-login{
-        text-align: center;
-        color: #ffffff;
-        background-color: #171d3a;
-
-    }
-
-    .btn-login:hover {
-        background-color: #94ABF9;
-    }
+    padding: 25px;
+    border-radius: 30px;
+    width: 367px;
+    margin: 34px;
 }
-.form-check{
-    padding-bottom:19px;
+
+.btn-login {
+    text-align: center;
+    color: #ffffff;
+    background-color: #171d3a;
 }
-.create-login{
+
+.btn-login:hover {
+    background-color: #94ABF9;
+}
+
+.form-check {
+    padding-bottom: 19px;
+}
+
+.create-login {
     text-align: center;
     display: block;
-    text-decoration:none;
-    color:#111111;
+    text-decoration: none;
+    color: #111111;
     margin-top: 15px;
 }
 
+/* register-page */
 
-/*register-page*/
 .card-register {
     background-color: #ffffff;
     padding: 35px;
     border-radius: 30px;
     width: 507px;
     margin: 54px;
-
-
-    .btn-register {
-        text-align: center;
-        color: #ffffff;
-        background-color: #171d3a;
-
 }
 
+.btn-register {
+    text-align: center;
+    color: #ffffff;
+    background-color: #171d3a;
+}
 
 .card-register .btn-register {
     text-align: center;
@@ -229,48 +232,40 @@ header {
 }
 
 .card-title, .form-label {
-    font-weight:bold;
+    font-weight: bold;
 }
-/*item page*/
-#item-form{
+
+/* taskPage */
+
+#taskForm {
     padding: 20px 400px 0px 400px;
 }
 
-.input[type="text"],.item-text,.select{
+[type="text"], .task-text, .select {
     width: 100%;
     padding: 10px;
     border: 1px solid white;
     border-radius: 4px;
-    .textarea{
-        resize: vertical;
-        height: 100px;
-    }
-
 }
 
+.textarea {
+    resize: vertical;
+    height: 100px;
+}
 
-.mt-4{
+.mt-4 {
     margin-top: 20px;
     text-align: center;
 }
-.push{
+
+.push {
     background-color: #171d3a;
     color: white;
     padding: 10px 20px;
     border-radius: 4px;
     border: none;
 }
-.push:hover{
+
+.push:hover {
     background-color: #94ABF9;
 }
-
-/*taskPage*/
-#taskForm {
-    padding: 20px 400px 0px 400px;
-
-
-.card-title, .form-label {
-    font-weight: bold;
-
-}
-}}
