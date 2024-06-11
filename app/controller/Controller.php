@@ -110,14 +110,14 @@ class Controller
         } else {
 
             // Send verification email to admin
-            $rootUrl = "https://braedonbillingsley.greenriverdev.com/BASBusinessPortfolio";
+            $rootUrl = "https://bas-business-portfolio.greenriverdev.com/develop/BASBusinessPortfolio";
             $verificationLink = $rootUrl . '/verify-access-request?email=' . urlencode($email);
             $subject = 'Access Request Verification';
             $message = "A new access request has been made. " . "Please review the user's message: '" . $userMessage . "'" .
                 "\n" . "To verify, click the following link: $verificationLink";
             $headers = 'From: no-reply@greenriverdev.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
-            if (mail('billingsley.braedon@student.greenriver.edu', $subject, $message, $headers)) {
+            if (mail('basbusinessportfolio@gmail.com', $subject, $message, $headers)) {
                 $response['status'] = 'success';
                 $response['message'] = 'Form submitted successfully.';
             }
